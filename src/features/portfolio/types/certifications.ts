@@ -7,9 +7,17 @@ export type Certification = {
    */
   issuerIconName?: string
   /**
-   * Issue date in ISO format (YYYY-MM-DD).
+   * Issue date in ISO format, with reduced precision when only a month or year is known.
    */
   issueDate: string
+  /**
+   * Optional display range when a credential spans multiple years.
+   */
+  displayPeriod?: string
+  /**
+   * Optional expiration date in ISO format, with reduced precision when needed.
+   */
+  expirationDate?: string
   /**
    * Certificate or credential identifier; leave empty if not applicable.
    */

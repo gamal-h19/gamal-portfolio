@@ -1,26 +1,33 @@
 import type { Metadata, Route } from "next"
-import Link from "next/link"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import { getTableOfContents } from "fumadocs-core/content/toc"
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react"
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts"
 
 import { JSON_LD_ID } from "@/config/json-ld"
-import { X_HANDLE } from "@/config/site"
+import { SITE_INFO, X_HANDLE } from "@/config/site"
 import { jsonLdBreadcrumbList, JsonLdScript } from "@/lib/json-ld"
 import { absoluteUrl } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Kbd } from "@/components/ui/kbd"
+import { Separator } from "@/components/ui/separator"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Prose } from "@/components/ui/typography"
+import { AppLink } from "@/components/app-link"
 import { CarbonAds } from "@/components/carbon-ads"
 import { MDX } from "@/components/mdx"
 import { TOCInline } from "@/components/toc-inline"
 import { TOCMinimap } from "@/components/toc-minimap"
+import {
+  ArticleMeta,
+  BlogBackLink,
+} from "@/features/blog/components/article-meta"
+import { CX_SERIES_TOTAL } from "@/features/blog/cx-series"
 import { DocKeyboardShortcuts } from "@/features/doc/components/doc-keyboard-shortcuts"
 import {
   DocContainer,
@@ -34,14 +41,20 @@ import { DocPageRoot } from "@/features/doc/components/doc-page-root"
 import { DocShareMenu } from "@/features/doc/components/doc-share-menu"
 import {
   findNeighbour,
+  getBlogPostImage,
   getBlogPosts,
   getDocBySlug,
+  normalizeDocDates,
 } from "@/features/doc/data/documents"
 import type { Doc } from "@/features/doc/types/document"
 
 export const revalidate = false
 export const dynamic = "force-static"
 export const dynamicParams = false
+
+type BlogSlugPageProps = {
+  params: Promise<{ slug: string }>
+}
 
 export async function generateStaticParams() {
   const docs = getBlogPosts()
@@ -50,7 +63,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: PageProps<"/blog/[slug]">): Promise<Metadata> {
+}: BlogSlugPageProps): Promise<Metadata> {
   const slug = (await params).slug
   const doc = getDocBySlug(slug)
 
@@ -58,42 +71,49 @@ export async function generateMetadata({
     return notFound()
   }
 
-  const { title, description, image, createdAt, updatedAt } = doc.metadata
+  const { title, description, createdAt, updatedAt } = doc.metadata
 
   const postUrl = `/blog/${doc.slug}`
-  const ogImage =
-    image ||
-    `/og/simple?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
+  const ogImage = getBlogPostImage(doc)
+  const dates = normalizeDocDates({ createdAt, updatedAt })
 
   return {
-    title,
+    title: doc.metadata.seoTitle ?? title,
     description,
+    ...(doc.metadata.keywords ? { keywords: doc.metadata.keywords } : {}),
     alternates: {
       canonical: postUrl,
     },
     openGraph: {
+      title: doc.metadata.seoTitle ?? title,
+      description,
       url: postUrl,
       type: "article",
-      publishedTime: new Date(createdAt).toISOString(),
-      modifiedTime: new Date(updatedAt).toISOString(),
-      images: {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: title,
-      },
+      publishedTime: dates.createdAt,
+      modifiedTime: dates.updatedAt,
+      ...(SITE_INFO.url
+        ? {
+            images: {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: doc.metadata.imageAlt ?? title,
+            },
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       site: X_HANDLE,
       creator: X_HANDLE,
-      images: [ogImage],
+      ...(SITE_INFO.url ? { images: [ogImage] } : {}),
     },
   }
 }
 
 function getPageJsonLd(doc: Doc): WithContext<PageSchema> {
   const postUrl = `/blog/${doc.slug}`
+  const dates = normalizeDocDates(doc.metadata)
 
   return {
     "@context": "https://schema.org",
@@ -101,26 +121,22 @@ function getPageJsonLd(doc: Doc): WithContext<PageSchema> {
     "@id": absoluteUrl(postUrl),
     headline: doc.metadata.title,
     description: doc.metadata.description,
-    image:
-      doc.metadata.image ||
-      absoluteUrl(
-        `/og/simple?title=${encodeURIComponent(doc.metadata.title)}&description=${encodeURIComponent(doc.metadata.description)}`
-      ),
+    image: absoluteUrl(getBlogPostImage(doc)),
     url: absoluteUrl(postUrl),
-    datePublished: new Date(doc.metadata.createdAt).toISOString(),
-    dateModified: new Date(doc.metadata.updatedAt).toISOString(),
+    datePublished: dates.createdAt,
+    dateModified: dates.updatedAt,
     author: { "@id": JSON_LD_ID.person },
     mainEntityOfPage: absoluteUrl(postUrl),
     isPartOf: {
       "@type": "Blog",
       "@id": absoluteUrl("/blog"),
-      name: "Blog",
+      name: "المدونة",
       url: absoluteUrl("/blog"),
     },
   }
 }
 
-export default async function Page({ params }: PageProps<"/blog/[slug]">) {
+export default async function Page({ params }: BlogSlugPageProps) {
   const slug = (await params).slug
   const doc = getDocBySlug(slug)
 
@@ -128,10 +144,23 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
     notFound()
   }
 
+  const coverImage = getBlogPostImage(doc)
   const toc = getTableOfContents(doc.content)
 
   const allDocs = getBlogPosts()
-  const { previous, next } = findNeighbour(allDocs, slug)
+  const navigationDocs = doc.metadata.seriesId
+    ? allDocs
+        .filter(
+          (post) =>
+            post.metadata.seriesId === doc.metadata.seriesId &&
+            typeof post.metadata.seriesNumber === "number"
+        )
+        .sort(
+          (a, b) =>
+            (a.metadata.seriesNumber ?? 0) - (b.metadata.seriesNumber ?? 0)
+        )
+    : allDocs
+  const { previous, next } = findNeighbour(navigationDocs, slug)
 
   return (
     <>
@@ -140,11 +169,11 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
       <JsonLdScript
         data={jsonLdBreadcrumbList([
           {
-            name: "Home",
+            name: "الرئيسية",
             href: "/",
           },
           {
-            name: "Blog",
+            name: "المدونة",
             href: "/blog",
           },
           {
@@ -164,23 +193,14 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
           <div className="screen-line-bottom h-px" />
 
           <div className="flex items-center justify-between p-2 pl-4">
-            <Button
-              className="h-7 gap-2 border-none px-0 tracking-wider text-muted-foreground hover:text-foreground hover:no-underline"
-              variant="link"
-              size="sm"
-              nativeButton={false}
-              render={
-                <Link href="/blog">
-                  <ArrowLeftIcon />
-                  Blog
-                </Link>
-              }
-            />
+            <BlogBackLink />
 
             <div className="flex items-center gap-2">
               <LLMCopyButtonWithViewOptions
                 markdownUrl={`/blog/${doc.slug}.md`}
               />
+
+              <Separator orientation="vertical" className="mx-1 h-5" />
 
               <DocShareMenu
                 title={doc.metadata.title}
@@ -197,19 +217,19 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
                         size="icon-sm"
                         nativeButton={false}
                         render={
-                          <Link
+                          <AppLink
                             href={`/blog/${previous.slug}`}
-                            aria-label="Previous post"
+                            aria-label="المقال السابق"
                           >
                             <ArrowLeftIcon />
-                          </Link>
+                          </AppLink>
                         }
                       />
                     }
                   />
                   <TooltipContent className="pr-2 pl-3">
                     <div className="flex items-center gap-3">
-                      Previous post
+                      المقال السابق
                       <Kbd>
                         <ArrowLeftIcon />
                       </Kbd>
@@ -228,19 +248,19 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
                         size="icon-sm"
                         nativeButton={false}
                         render={
-                          <Link
+                          <AppLink
                             href={`/blog/${next.slug}`}
-                            aria-label="Next post"
+                            aria-label="المقال التالي"
                           >
                             <ArrowRightIcon />
-                          </Link>
+                          </AppLink>
                         }
                       />
                     }
                   />
                   <TooltipContent className="pr-2 pl-3">
                     <div className="flex items-center gap-3">
-                      Next post
+                      المقال التالي
                       <Kbd>
                         <ArrowRightIcon />
                       </Kbd>
@@ -257,10 +277,33 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
 
           <h1
             data-slot="doc-title"
-            className="screen-line-bottom px-4 text-4xl font-medium tracking-tight text-balance"
+            className="screen-line-bottom px-4 py-2 text-3xl font-medium tracking-tight text-balance sm:text-4xl"
           >
             {doc.metadata.title}
           </h1>
+
+          <ArticleMeta
+            createdAt={doc.metadata.createdAt}
+            updatedAt={doc.metadata.updatedAt}
+            readingMinutes={Math.max(
+              1,
+              Math.ceil(doc.content.trim().split(/\s+/u).length / 200)
+            )}
+            series={
+              doc.metadata.seriesId &&
+              doc.metadata.seriesTitle &&
+              typeof doc.metadata.seriesNumber === "number" &&
+              doc.metadata.seriesLevel
+                ? {
+                    id: doc.metadata.seriesId,
+                    title: doc.metadata.seriesTitle,
+                    number: doc.metadata.seriesNumber,
+                    level: doc.metadata.seriesLevel,
+                    total: CX_SERIES_TOTAL,
+                  }
+                : undefined
+            }
+          />
         </DocContainer>
 
         <DocGrid>
@@ -268,6 +311,25 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
 
           <DocContentCol>
             <Prose className="px-(--page-padding) pt-8 [--page-padding:--spacing(4)]">
+              <figure className="not-prose mb-8 overflow-hidden rounded-xl border border-line">
+                <Image
+                  src={coverImage}
+                  alt={
+                    doc.metadata.imageAlt ??
+                    `غلاف المقال: ${doc.metadata.title}`
+                  }
+                  width={1200}
+                  height={630}
+                  sizes="(max-width: 768px) calc(100vw - 2rem), 48rem"
+                  preload
+                  unoptimized={
+                    !coverImage.startsWith("/") ||
+                    coverImage.startsWith("/og/blog/")
+                  }
+                  className="aspect-1200/630 h-auto w-full object-cover"
+                />
+              </figure>
+
               <p className="text-muted-foreground">
                 {doc.metadata.description}
               </p>

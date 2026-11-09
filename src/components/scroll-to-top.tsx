@@ -37,7 +37,8 @@ export function ScrollToTop({
       )}
       variant="secondary"
       size="icon-sm"
-      aria-label="Scroll to top"
+      aria-label="العودة إلى الأعلى"
+      title="العودة إلى الأعلى"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       {...props}
     >

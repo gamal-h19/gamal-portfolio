@@ -8,6 +8,7 @@ import { PhoneIcon } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 
 import { trackEvent } from "@/lib/events"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { useIsClient } from "@/hooks/use-is-client"
 import { toast } from "@/components/ui/toast"
 import { CopyButton } from "@/components/copy-button"
@@ -29,20 +30,25 @@ export function PhoneItem({ phoneNumberB64 }: PhoneItemProps) {
   const isClient = useIsClient()
   const phoneNumberDecoded = decodePhoneNumber(phoneNumberB64)
   const phoneNumberFormatted = formatPhoneNumber(phoneNumberDecoded)
+  const { t } = useLanguage()
 
   const { success } = useTiks()
 
-  useHotkeys("shift+p", () => {
-    copyToClipboardWithEvent(phoneNumberDecoded, {
-      name: "copy_phone_number",
-      properties: {
-        method: "keyboard",
-        key: "shift+p",
-      },
-    })
-    success()
-    toast.add({ type: "success", title: "Phone number copied" })
-  })
+  useHotkeys(
+    "shift+p",
+    () => {
+      copyToClipboardWithEvent(phoneNumberDecoded, {
+        name: "copy_phone_number",
+        properties: {
+          method: "keyboard",
+          key: "shift+p",
+        },
+      })
+      success()
+      toast.add({ type: "success", title: t("contact.phoneCopied") })
+    },
+    [phoneNumberDecoded, success, t]
+  )
 
   return (
     <IntroItem className="group">
@@ -53,6 +59,7 @@ export function PhoneItem({ phoneNumberB64 }: PhoneItemProps) {
       <IntroItemContent className="flex">
         <IntroItemLink
           id={id}
+          dir="ltr"
           href={isClient ? `tel:${phoneNumberDecoded}` : ""}
           suppressHydrationWarning
         >
@@ -62,6 +69,7 @@ export function PhoneItem({ phoneNumberB64 }: PhoneItemProps) {
 
       <div className="-translate-x-2.5 opacity-0 transition-opacity ease-out group-hover:opacity-100 group-has-focus-visible:opacity-100 pointer-coarse:opacity-100">
         <CopyButton
+          aria-label={t("action.copy")}
           className="rounded-md border-none text-muted-foreground [&_svg:not([class*='size-'])]:size-3.5"
           variant="ghost"
           size="icon-xs"

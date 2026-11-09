@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 import type { Block } from "@/features/blocks/data/blocks"
 
 import { BLOCK_MOCKUPS } from "./mockups"
@@ -16,8 +14,6 @@ export function BlockItem({
 }) {
   const Heading = headingAs ?? "h2"
   const Mockup = BLOCK_MOCKUPS[block.name]
-  const category = block.categories?.[0]
-
   return (
     <div className="group/block relative flex h-full flex-col gap-2 p-2 transition-[background-color] ease-out hover:bg-accent-muted">
       {Mockup && (
@@ -31,10 +27,7 @@ export function BlockItem({
 
       <div className="flex flex-col gap-1 p-2">
         <Heading className="text-lg/snug font-medium text-balance">
-          <Link href={`/blocks/${category}/${block.name}`}>
-            <span className="absolute inset-0" aria-hidden />
-            {block.title}
-          </Link>
+          {block.title}
         </Heading>
 
         {block.description && (

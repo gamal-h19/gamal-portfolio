@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -13,13 +12,11 @@ export function DocNeighbourNav({
 }) {
   return (
     <div className="max-sm:hidden">
-      <div className="screen-dashed-line-top before:opacity-80">
-        <div className="screen-line-top h-px overflow-x-clip" />
-      </div>
+      <div className="screen-dashed-line-top" />
 
       <nav
         className="flex justify-between gap-4 p-4"
-        aria-label="Previous and next"
+        aria-label="السابق والتالي"
       >
         {previous && (
           <Button
@@ -27,10 +24,10 @@ export function DocNeighbourNav({
             variant="secondary"
             size="sm"
             nativeButton={false}
-            render={<Link href={`/components/${previous.slug}`} />}
+            render={<span />}
           >
             <ArrowLeftIcon data-icon="inline-start" />
-            <span className="sr-only">Previous: </span>
+            <span className="sr-only">السابق: </span>
             <span className="truncate">{previous.metadata.title}</span>
           </Button>
         )}
@@ -41,9 +38,9 @@ export function DocNeighbourNav({
             variant="secondary"
             size="sm"
             nativeButton={false}
-            render={<Link href={`/components/${next.slug}`} />}
+            render={<span />}
           >
-            <span className="sr-only">Next: </span>
+            <span className="sr-only">التالي: </span>
             <span className="truncate">{next.metadata.title}</span>
             <ArrowRightIcon data-icon="inline-end" />
           </Button>

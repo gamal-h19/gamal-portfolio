@@ -1,51 +1,40 @@
 import type { MetadataRoute } from "next"
 
-import { blockCategories } from "@/config/registry"
 import { SITE_INFO } from "@/config/site"
-import { getAllBlockStaticParams } from "@/lib/blocks"
-import { getBlogPosts, getComponentDocs } from "@/features/doc/data/documents"
+import { getBlogPosts } from "@/features/doc/data/documents"
+import { CASE_STUDIES } from "@/features/portfolio/data/case-studies"
 
 export const revalidate = false
 export const dynamic = "force-static"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (!SITE_INFO.url) {
+    return []
+  }
+
+  const toUrl = (path: string) => new URL(path, SITE_INFO.url).toString()
   const posts = getBlogPosts().map((post) => ({
-    url: `${SITE_INFO.url}/blog/${post.slug}`,
+    url: toUrl(`/blog/${post.slug}`),
     lastModified: new Date(post.metadata.updatedAt).toISOString(),
   }))
 
-  const components = getComponentDocs().map((post) => ({
-    url: `${SITE_INFO.url}/components/${post.slug}`,
-    lastModified: new Date(post.metadata.updatedAt).toISOString(),
-  }))
-
-  const blockCategoryPages = blockCategories.map((category) => ({
-    url: `${SITE_INFO.url}/blocks/${category.name}`,
+  const caseStudies = CASE_STUDIES.map((study) => ({
+    url: toUrl(`/case-studies/${study.slug}`),
     lastModified: new Date().toISOString(),
   }))
 
-  const blocks = (await getAllBlockStaticParams()).map(
-    ({ category, name }) => ({
-      url: `${SITE_INFO.url}/blocks/${category}/${name}`,
-      lastModified: new Date().toISOString(),
-    })
-  )
-
-  const routes = [
+  const paths = [
     "",
+    "/about",
+    "/case-studies",
     "/blog",
-    "/components",
-    "/components/showcase",
-    "/blocks",
-    "/craft",
-    "/bookmarks",
-    "/insights",
-    "/sponsors",
-    "/testimonials",
-  ].map((route) => ({
-    url: `${SITE_INFO.url}${route}`,
+    "/newsletter",
+    "/contact",
+  ]
+  const routes = paths.map((path) => ({
+    url: toUrl(path || "/"),
     lastModified: new Date().toISOString(),
   }))
 
-  return [...routes, ...posts, ...components, ...blockCategoryPages, ...blocks]
+  return [...routes, ...caseStudies, ...posts]
 }

@@ -22,17 +22,17 @@ export function Numbers() {
 
       <div className="flex items-center justify-center py-4">
         <h2 className="text-center text-sm/none font-medium tracking-wide text-muted-foreground uppercase">
-          Growing with the community
+          نموّي مع المجتمع
         </h2>
       </div>
 
       <div className="screen-line-bottom h-px" />
 
       <dl className="grid gap-4 p-4">
-        <Stat label="GitHub stars" value={githubStars} />
-        <Stat label="X followers" value={xFollowers} />
-        <Stat label="npm downloads / year" value={npmYearlyDownloads} />
-        <Stat label="Page views / year" value={yearlyPageViews} />
+        <Stat label="نجوم GitHub" value={githubStars} />
+        <Stat label="متابعو X" value={xFollowers} />
+        <Stat label="تنزيلات npm سنويًا" value={npmYearlyDownloads} />
+        <Stat label="مشاهدة صفحات سنويًا" value={yearlyPageViews} />
       </dl>
     </Panel>
   )

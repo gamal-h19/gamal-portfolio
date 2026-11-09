@@ -6,41 +6,35 @@ import type { SocialProfile } from "@/features/portfolio/types/social-links"
  * so adding a profile here forces the icon map to stay in sync at compile time.
  */
 export const SOCIAL = {
+  linkedin: {
+    title: "لينكدإن",
+    handle: "gamal-h19",
+    href: "https://www.linkedin.com/in/gamal-h19/",
+    sameAs: true,
+  },
   x: {
-    title: "𝕏",
-    handle: "@iamncdai",
-    href: "https://x.com/iamncdai",
+    title: "إكس",
+    handle: "@UXGAMAL",
+    href: "https://x.com/UXGAMAL",
+    sameAs: true,
+  },
+  facebook: {
+    title: "فيسبوك",
+    handle: "ux.gamal",
+    href: "https://www.facebook.com/ux.gamal",
+    sameAs: true,
+  },
+  instagram: {
+    title: "إنستغرام",
+    handle: "ux.gamal",
+    href: "https://www.instagram.com/ux.gamal/",
     sameAs: true,
   },
   github: {
-    title: "GitHub",
-    handle: "ncdai",
-    href: "https://github.com/ncdai",
-    sameAs: true,
+    title: "غيت هاب",
+    handle: "gamal-h19",
+    href: "https://github.com/gamal-h19",
   },
-  linkedin: {
-    title: "LinkedIn",
-    handle: "ncdai",
-    href: "https://linkedin.com/in/ncdai",
-    sameAs: true,
-  },
-  // dailydotdev: {
-  //   title: "daily.dev",
-  //   handle: "@ncdai",
-  //   href: "https://app.daily.dev/ncdai",
-  //   sameAs: true,
-  // },
-  // discord: {
-  //   title: "Discord",
-  //   handle: "ncdai",
-  //   href: "https://discord.com/users/1186630645443739651",
-  // },
-  // youtube: {
-  //   title: "YouTube",
-  //   handle: "@ncdai",
-  //   href: "https://www.youtube.com/@ncdai",
-  //   sameAs: true,
-  // },
 } satisfies Record<string, SocialProfile>
 
 export type SocialName = keyof typeof SOCIAL
@@ -49,4 +43,6 @@ export type SocialLink = SocialProfile & { name: SocialName }
 
 export const SOCIAL_LINKS: SocialLink[] = (
   Object.entries(SOCIAL) as [SocialName, SocialProfile][]
-).map(([name, profile]) => ({ name, ...profile }))
+)
+  .filter(([, profile]) => Boolean(profile.href))
+  .map(([name, profile]) => ({ name, ...profile }))

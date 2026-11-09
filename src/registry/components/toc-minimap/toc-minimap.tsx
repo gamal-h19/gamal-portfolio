@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { uMiniMapOpenSound } from "@/lib/soundcn/u-mini-map-open"
 import { cn } from "@/lib/utils"
 import { useSound } from "@/hooks/soundcn/use-sound"
@@ -24,6 +25,8 @@ export type TOCMinimapProps = {
 }
 
 export function TOCMinimap({ items, className }: TOCMinimapProps) {
+  const { dir } = useLanguage()
+  const side = dir === "rtl" ? "right" : "left"
   const itemIds = useMemo(
     () => items.map((item) => item.url.replace("#", "")),
     [items]
@@ -38,7 +41,7 @@ export function TOCMinimap({ items, className }: TOCMinimapProps) {
   }
 
   return (
-    <div className={cn("ml-auto w-18", className)}>
+    <div className={cn("ms-auto w-18", className)}>
       <HoverCard
         onOpenChange={(open) => {
           if (open) play()
@@ -48,7 +51,7 @@ export function TOCMinimap({ items, className }: TOCMinimapProps) {
           delay={0}
           closeDelay={0}
           render={
-            <div className="flex max-h-[50dvh] flex-col gap-3 overflow-hidden py-3 pl-6 opacity-100 transition-opacity duration-200 data-popup-open:opacity-0">
+            <div className="flex max-h-[50dvh] flex-col gap-3 overflow-hidden py-3 ps-6 opacity-100 transition-opacity duration-200 data-popup-open:opacity-0">
               {items.map((item) => (
                 <div
                   key={item.url}
@@ -56,8 +59,8 @@ export function TOCMinimap({ items, className }: TOCMinimapProps) {
                   data-active={item.url === `#${activeHeading}`}
                   className={cn(
                     "h-0.5 w-6 shrink-0 rounded-xs bg-ring/50 transition-[background-color] duration-200",
-                    "data-[depth=3]:ml-2 data-[depth=3]:w-4",
-                    "data-[depth=4]:ml-4 data-[depth=4]:w-2",
+                    "data-[depth=3]:ms-2 data-[depth=3]:w-4",
+                    "data-[depth=4]:ms-4 data-[depth=4]:w-2",
                     "data-active:bg-foreground"
                   )}
                 />
@@ -67,10 +70,10 @@ export function TOCMinimap({ items, className }: TOCMinimapProps) {
         />
 
         <HoverCardContent
-          className="w-56 overflow-hidden p-0 duration-200 data-[side=left]:slide-in-from-right-3 data-[side=left]:slide-out-to-right-3 data-open:zoom-in-100 data-closed:zoom-out-100"
+          className="w-56 overflow-hidden p-0 duration-200 data-[side=left]:slide-in-from-right-3 data-[side=left]:slide-out-to-right-3 data-[side=right]:slide-in-from-left-3 data-[side=right]:slide-out-to-left-3 data-open:zoom-in-100 data-closed:zoom-out-100"
           align="start"
           alignOffset={0}
-          side="left"
+          side={side}
           sideOffset={-60}
         >
           <div className="flex max-h-[50dvh] overflow-y-auto overscroll-contain">
@@ -84,7 +87,7 @@ export function TOCMinimap({ items, className }: TOCMinimapProps) {
                     className={cn(
                       "line-clamp-2 w-full transition-[color] duration-200",
                       "text-muted-foreground hover:text-foreground data-active:text-foreground",
-                      "data-[depth=3]:pl-4 data-[depth=4]:pl-8"
+                      "data-[depth=3]:ps-4 data-[depth=4]:ps-8"
                     )}
                     onClick={handleItemClick}
                   >

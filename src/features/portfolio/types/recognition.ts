@@ -12,7 +12,7 @@ export type AwardRecognition = {
 export type CredentialRecognition = {
   kind: "certificate" | "trademark" | "copyright"
   key: string
-  /** Raw source date: "YYYY-MM-DD". */
+  /** Raw source date with the precision available: "YYYY-MM-DD", "YYYY-MM", or "YYYY". */
   date: string
   credential: Certification
 }

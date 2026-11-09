@@ -49,7 +49,7 @@ export function ProjectItem({
             </h3>
 
             <dl className="text-sm text-muted-foreground">
-              <dt className="sr-only">Period</dt>
+              <dt className="sr-only">الفترة</dt>
               <dd className="flex items-center gap-0.5">
                 <span>{start}</span>
                 {!isSinglePeriod && (
@@ -58,7 +58,7 @@ export function ProjectItem({
                     {isOngoing ? (
                       <InfinityIcon
                         className="size-4.5 translate-y-[0.5px]"
-                        aria-label="Present"
+                        aria-label="حاليًا"
                       />
                     ) : (
                       <span>{end}</span>
@@ -77,14 +77,15 @@ export function ProjectItem({
                   href={addQueryParams(project.link, UTM_PARAMS)}
                   target="_blank"
                   rel="noopener"
-                  aria-label="Open project"
+                  aria-label="فتح المشروع"
+                  title="فتح المشروع"
                 >
                   <LinkIcon className="pointer-events-none size-4" />
                 </a>
               }
             />
             <TooltipContent>
-              <p>Open project</p>
+              <p>فتح المشروع</p>
             </TooltipContent>
           </Tooltip>
 

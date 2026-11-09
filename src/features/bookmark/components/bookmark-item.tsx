@@ -1,4 +1,3 @@
-import { format } from "date-fns"
 import { ArrowUpRightIcon, ComponentIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -34,7 +33,7 @@ export function BookmarkItem({
       </IconTile>
 
       <div className="flex-1 space-y-1 border-l border-dashed border-line p-4 pr-2">
-        <h3 className="leading-snug font-medium text-balance">
+        <h3 className="leading-snug font-medium text-balance" dir="auto">
           <BookmarkExternalLink url={bookmark.url} surface={surface}>
             <span className="absolute inset-0" aria-hidden />
             {bookmark.title}
@@ -45,8 +44,8 @@ export function BookmarkItem({
           {bookmark.author && (
             <>
               <div>
-                <dt className="sr-only">Author</dt>
-                <dd>{bookmark.author}</dd>
+                <dt className="sr-only">الكاتب</dt>
+                <dd dir="auto">{bookmark.author}</dd>
               </div>
 
               <MetaSeparator />
@@ -54,24 +53,44 @@ export function BookmarkItem({
           )}
 
           <div>
-            <dt className="sr-only">Category</dt>
-            <dd>{bookmark.category}</dd>
+            <dt className="sr-only">الفئة</dt>
+            <dd>
+              {
+                {
+                  [BookmarkCategory.ARTICLE]: "مقال",
+                  [BookmarkCategory.COURSE]: "دورة",
+                  [BookmarkCategory.BOOK]: "كتاب",
+                  [BookmarkCategory.REFERENCE]: "مرجع",
+                  [BookmarkCategory.UI_LIBRARY]: "مكتبة واجهات",
+                  [BookmarkCategory.SOFTWARE]: "برنامج",
+                }[bookmark.category]
+              }
+            </dd>
           </div>
 
           <MetaSeparator />
 
           <div>
-            <dt className="sr-only">Bookmarked on</dt>
+            <dt className="sr-only">تاريخ الحفظ</dt>
             <dd>
               <time dateTime={new Date(bookmark.bookmarkedAt).toISOString()}>
-                {format(new Date(bookmark.bookmarkedAt), "d MMM yyyy")}
+                {new Intl.DateTimeFormat("ar-EG", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                  calendar: "gregory",
+                  timeZone: "UTC",
+                }).format(new Date(bookmark.bookmarkedAt))}
               </time>
             </dd>
           </div>
         </dl>
 
         {bookmark.why && (
-          <p className="mt-4 border-t border-dashed border-line pt-4 text-sm text-pretty text-foreground">
+          <p
+            className="mt-4 border-t border-dashed border-line pt-4 text-sm text-pretty text-foreground"
+            dir="auto"
+          >
             {bookmark.why}
           </p>
         )}

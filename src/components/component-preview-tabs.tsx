@@ -107,14 +107,15 @@ export function ComponentPreviewTabs({
                           className="size-7 rounded-[5px] border-none"
                           variant="ghost"
                           size="icon-sm"
-                          aria-label="Replay"
+                          aria-label="إعادة التشغيل"
+                          title="إعادة التشغيل"
                           onClick={() => setReplay((v) => v + 1)}
                         >
                           <Repeat />
                         </Button>
                       }
                     />
-                    <TooltipContent>Replay</TooltipContent>
+                    <TooltipContent>إعادة التشغيل</TooltipContent>
                   </Tooltip>
                 )}
 
@@ -126,7 +127,8 @@ export function ComponentPreviewTabs({
                           className="size-7 rounded-[5px] border-none"
                           variant="ghost"
                           size="icon-sm"
-                          aria-label="Customize"
+                          aria-label="تخصيص"
+                          title="تخصيص"
                           nativeButton={false}
                           render={
                             <a
@@ -140,7 +142,7 @@ export function ComponentPreviewTabs({
                         />
                       }
                     />
-                    <TooltipContent>Customize</TooltipContent>
+                    <TooltipContent>تخصيص</TooltipContent>
                   </Tooltip>
                 )}
 

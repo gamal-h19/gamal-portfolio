@@ -24,13 +24,17 @@ export function JobItem({
   experienceId,
 }: JobItemProps) {
   return (
-    <IntroItem className="sm:col-span-2">
+    <IntroItem className="font-sans sm:col-span-2">
       <IntroItemIcon>{getJobIcon(title)}</IntroItemIcon>
 
-      <IntroItemContent>
-        {title} <span aria-label="at">@</span>
+      <IntroItemContent dir="auto">
+        {title}{" "}
+        <span aria-label="لدى" dir="ltr">
+          لدى
+        </span>{" "}
         <IntroItemLink
-          className="ml-0.5 font-medium"
+          className="font-sans font-medium"
+          dir="auto"
           {...(experienceId
             ? {
                 href: `#experience-${experienceId}`,

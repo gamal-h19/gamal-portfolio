@@ -1,35 +1,41 @@
+import { useLanguage } from "@/lib/i18n/language-context"
 import {
   Panel,
   PanelHeader,
   PanelTitle,
 } from "@/features/portfolio/components/panel"
-import { PanelTitleCopy } from "@/features/portfolio/components/panel-title-copy"
-import { EDUCATION } from "@/features/portfolio/data/education"
-import type { Education } from "@/features/portfolio/types/education"
+import { EDUCATION_AR } from "@/features/portfolio/data/education-ar"
 
 import { EducationItem } from "./education-item"
 
 const ID = "education"
 
-export function Education() {
+export function Education({ embedded = false }: { embedded?: boolean }) {
+  const { t } = useLanguage()
+  const educationList = EDUCATION_AR
+  const items = educationList.map((item) => (
+    <div
+      key={item.id}
+      id={`education-${item.id}`}
+      className="screen-line-bottom scroll-mt-14 p-4"
+    >
+      <EducationItem item={item} />
+    </div>
+  ))
+
+  if (embedded) {
+    return <>{items}</>
+  }
+
   return (
     <Panel id={ID}>
       <PanelHeader>
         <PanelTitle>
-          <a href={`#${ID}`}>Education</a>
-          <PanelTitleCopy id={ID} />
+          <a href={`#${ID}`}>{t("section.education")}</a>
         </PanelTitle>
       </PanelHeader>
 
-      {EDUCATION.map((item) => (
-        <div
-          key={item.id}
-          id={`education-${item.id}`}
-          className="screen-line-bottom scroll-mt-14 p-4"
-        >
-          <EducationItem key={item.id} item={item} />
-        </div>
-      ))}
+      {items}
     </Panel>
   )
 }

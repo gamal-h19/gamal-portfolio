@@ -1,7 +1,6 @@
 import { unstable_cache } from "next/cache"
 import { addQueryParams } from "@/utils/url"
 import { TZDate } from "@date-fns/tz"
-import { format } from "date-fns"
 import { z } from "zod"
 
 import { registryConfig } from "@/config/registry"
@@ -23,7 +22,6 @@ const DOCS_URL = "https://ui.shadcn.com/docs/registry/health"
 // Checks run hourly, so anything older means the data stopped updating, either
 // on their side or because our own fetch keeps failing and serving stale cache.
 const MAX_AGE_MS = 3 * 24 * 60 * 60 * 1000
-
 const healthSchema = z.object({
   // BREAKDOWN maximums only hold for score version 1. Any other version fails
   // parsing, which hides the badge.
@@ -47,10 +45,22 @@ const registriesSchema = z.array(
 type Health = z.infer<typeof healthSchema>
 
 const STATUS: Record<Health["status"], { label: string; className: string }> = {
-  observing: { label: "Observing", className: "bg-muted-foreground" },
-  healthy: { label: "Healthy", className: "bg-success" },
-  degraded: { label: "Degraded", className: "bg-amber-500" },
-  unavailable: { label: "Unavailable", className: "bg-destructive" },
+  observing: {
+    label: "قيد المراقبة",
+    className: "bg-muted-foreground",
+  },
+  healthy: {
+    label: "سليم",
+    className: "bg-success",
+  },
+  degraded: {
+    label: "متراجع",
+    className: "bg-amber-500",
+  },
+  unavailable: {
+    label: "غير متاح",
+    className: "bg-destructive",
+  },
 }
 
 const BREAKDOWN: {
@@ -58,10 +68,18 @@ const BREAKDOWN: {
   label: string
   max: number
 }[] = [
-  { key: "reliability", label: "Reliability", max: 45 },
-  { key: "correctness", label: "Correctness", max: 25 },
-  { key: "installability", label: "Installability", max: 20 },
-  { key: "hygiene", label: "Setup", max: 10 },
+  {
+    key: "reliability",
+    label: "الاعتمادية",
+    max: 45,
+  },
+  { key: "correctness", label: "الصحة", max: 25 },
+  {
+    key: "installability",
+    label: "سهولة التثبيت",
+    max: 20,
+  },
+  { key: "hygiene", label: "الإعداد", max: 10 },
 ]
 
 const POINTS_FORMATTER = new Intl.NumberFormat("en-US", {
@@ -114,6 +132,14 @@ export async function RegistryHealth({ className }: { className?: string }) {
   }
 
   const status = STATUS[health.status]
+  const checkedAt = new TZDate(health.checkedAt, "UTC")
+  const checkedAtAr = new Intl.DateTimeFormat("ar-EG", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(checkedAt)
 
   return (
     <Popover>
@@ -134,11 +160,11 @@ export async function RegistryHealth({ className }: { className?: string }) {
               className={cn("size-2 rounded-full", status.className)}
               aria-hidden
             />
-            <span className="sr-only">Registry health: </span>
+            <span className="sr-only">حالة السجل:</span>
             {status.label}
             <span className="text-muted-foreground tabular-nums">
               {POINTS_FORMATTER.format(health.score)}
-              <span className="sr-only"> out of 100</span>
+              <span className="sr-only">{" من ١٠٠"}</span>
             </span>
           </Button>
         }
@@ -146,7 +172,7 @@ export async function RegistryHealth({ className }: { className?: string }) {
 
       <PopoverContent className="gap-0 rounded-2xl bg-surface p-0" side="top">
         <PopoverHeader className="px-4 pt-4 pb-3">
-          <PopoverTitle>Registry health</PopoverTitle>
+          <PopoverTitle>حالة السجل</PopoverTitle>
           <PopoverDescription className="text-pretty">
             {health.statusReason.message}
           </PopoverDescription>
@@ -165,17 +191,14 @@ export async function RegistryHealth({ className }: { className?: string }) {
         </dl>
 
         <div className="flex flex-col gap-1 px-4 py-3 text-xs text-muted-foreground">
-          <p>
-            Checked{" "}
-            {format(new TZDate(health.checkedAt, "UTC"), "d MMM, HH:mm")} UTC
-          </p>
+          <p>{`آخر فحص: ${checkedAtAr} UTC`}</p>
           <a
             className="w-fit text-foreground link-underline"
             href={addQueryParams(DOCS_URL, UTM_PARAMS)}
             target="_blank"
             rel="noopener"
           >
-            How health is scored
+            كيف تُحتسب درجة الصحة
           </a>
         </div>
       </PopoverContent>

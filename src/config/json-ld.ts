@@ -3,6 +3,7 @@ import type { Person } from "schema-dts"
 import { SITE_INFO } from "@/config/site"
 import { SOCIAL_LINKS } from "@/features/portfolio/data/social-links"
 import { USER } from "@/features/portfolio/data/user"
+import { USER_AR } from "@/features/portfolio/data/user-ar"
 
 /**
  * Stable @id anchors so Google can merge JSON-LD nodes across separate
@@ -17,8 +18,8 @@ export const JSON_LD_ID = {
 export const personJsonLd: Person = {
   "@type": "Person",
   "@id": JSON_LD_ID.person,
-  name: USER.displayName,
-  alternateName: [USER.username],
+  name: USER_AR.displayName,
+  alternateName: [USER.displayName, USER.username],
   identifier: USER.username,
   image: USER.avatar,
   url: SITE_INFO.url,

@@ -24,11 +24,13 @@ export function GitHubStars({ repo, stargazersCount }: GitHubStarsProps) {
             variant="ghost"
             size="sm"
             nativeButton={false}
+            title="حسابات GitHub"
             render={
               <a
                 href={addQueryParams(`https://github.com/${repo}`, UTM_PARAMS)}
                 target="_blank"
                 rel="noopener"
+                aria-label="حساب GitHub"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -44,14 +46,14 @@ export function GitHubStars({ repo, stargazersCount }: GitHubStarsProps) {
                   {formatCompactNumber(stargazersCount)}
                 </span>
 
-                <span className="sr-only">GitHub stars</span>
+                <span className="sr-only">نجوم GitHub</span>
               </a>
             }
           />
         }
       />
       <TooltipContent className="tabular-nums">
-        {formatNumber(stargazersCount)} stars
+        {formatNumber(stargazersCount)} نجمة على GitHub
       </TooltipContent>
     </Tooltip>
   )

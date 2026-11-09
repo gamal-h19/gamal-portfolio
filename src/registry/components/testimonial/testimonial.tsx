@@ -6,7 +6,7 @@ export function Testimonial({ className, ...props }: ComponentProps<"figure">) {
   return (
     <figure
       data-slot="testimonial"
-      className={cn("flex h-full flex-col", className)}
+      className={cn("flex h-full flex-col justify-between", className)}
       {...props}
     />
   )
@@ -20,7 +20,8 @@ export function TestimonialQuote({
     <blockquote
       data-slot="testimonial-quote"
       className={cn(
-        "grow px-4 py-3 text-base text-pretty text-foreground",
+        "grow px-4 py-3 text-base/relaxed text-pretty text-foreground sm:text-[0.98rem]",
+        "min-h-22",
         className
       )}
       {...props}
@@ -98,7 +99,7 @@ export function TestimonialAuthorName({
     <div
       data-slot="testimonial-author-name"
       className={cn(
-        "flex items-center gap-1.5 text-sm/4.5 font-semibold text-foreground",
+        "flex items-center gap-1.5 text-sm/4.5 font-semibold text-foreground sm:text-[0.92rem]",
         className
       )}
       {...props}
@@ -113,7 +114,10 @@ export function TestimonialAuthorTagline({
   return (
     <div
       data-slot="testimonial-author-tagline"
-      className={cn("text-xs/4 text-balance text-muted-foreground", className)}
+      className={cn(
+        "text-xs/4 text-balance text-muted-foreground sm:text-[0.72rem]",
+        className
+      )}
       {...props}
     />
   )

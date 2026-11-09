@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="82" x2="1080" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="240" y1="120" x2="820" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#34D399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="40" fill="url(#bg)"/>
+  <circle cx="250" cy="170" r="180" fill="#38BDF8" fill-opacity="0.14"/>
+  <circle cx="980" cy="490" r="190" fill="#34D399" fill-opacity="0.12"/>
+  <rect x="140" y="110" width="920" height="390" rx="28" fill="#0F172A" stroke="#7DD3FC" stroke-opacity="0.35"/>
+  <rect x="200" y="170" width="220" height="220" rx="22" fill="url(#panel)"/>
+  <path d="M240 330C240 294.863 268.863 266 304 266H395C421.51 266 443 287.49 443 314V330H240V330Z" fill="#E0F2FE" fill-opacity="0.26"/>
+  <path d="M505 220H905" stroke="#E2E8F0" stroke-width="10" stroke-linecap="round"/>
+  <path d="M505 285H840" stroke="#E2E8F0" stroke-opacity="0.75" stroke-width="10" stroke-linecap="round"/>
+  <path d="M505 350H760" stroke="#7DD3FC" stroke-width="10" stroke-linecap="round"/>
+  <path d="M505 415H845" stroke="#34D399" stroke-width="10" stroke-linecap="round"/>
+</svg>

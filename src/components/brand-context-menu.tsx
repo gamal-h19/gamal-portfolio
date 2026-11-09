@@ -1,10 +1,10 @@
 "use client"
 
-import Link from "next/link"
 import { copyText } from "@/utils/copy"
 import { useTiks } from "@rexa-developer/tiks/react"
-import { ArrowUpRight, Download, SquareDashed, Type } from "lucide-react"
+import { ArrowUpRight, Type } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import {
   ContextMenu,
   ContextMenuContent,
@@ -13,21 +13,25 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 import { toast } from "@/components/ui/toast"
+import { AppLink } from "@/components/app-link"
 
 import { ChanhDaiMark, getMarkSVG } from "./chanhdai-mark"
 import { getWordmarkSVG } from "./chanhdai-wordmark"
 
 export function BrandContextMenu({ children }: { children: React.ReactNode }) {
   const { success } = useTiks()
+  const { t } = useLanguage()
 
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className="w-fit">
-        <ContextMenuItem render={<a href="/" target="_blank" />}>
+        <ContextMenuItem
+          render={<AppLink href="/" target="_blank" rel="noreferrer" />}
+        >
           <ArrowUpRight />
-          Open Link in New Tab
+          {t("brand.openNewTab")}
         </ContextMenuItem>
 
         <ContextMenuSeparator />
@@ -35,39 +39,23 @@ export function BrandContextMenu({ children }: { children: React.ReactNode }) {
         <ContextMenuItem
           onClick={() => {
             copyText(getMarkSVG())
-            toast.add({ type: "success", title: "Mark as SVG copied" })
+            toast.add({ type: "success", title: t("command.markCopied") })
             success()
           }}
         >
           <ChanhDaiMark />
-          Copy Mark as SVG
+          {t("brand.copyMark")}
         </ContextMenuItem>
 
         <ContextMenuItem
           onClick={() => {
             copyText(getWordmarkSVG())
-            toast.add({ type: "success", title: "Logotype as SVG copied" })
+            toast.add({ type: "success", title: t("command.logotypeCopied") })
             success()
           }}
         >
           <Type />
-          Copy Logotype as SVG
-        </ContextMenuItem>
-
-        <ContextMenuSeparator />
-
-        <ContextMenuItem render={<Link href="/blog/chanhdai-brand" />}>
-          <SquareDashed />
-          Brand Guidelines
-        </ContextMenuItem>
-
-        <ContextMenuItem
-          render={
-            <a href="https://assets.chanhdai.com/chanhdai-brand.zip" download />
-          }
-        >
-          <Download />
-          Download Brand Assets
+          {t("brand.copyLogotype")}
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

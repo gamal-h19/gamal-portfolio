@@ -21,7 +21,8 @@ export function OpenInV0Button({
           href={`https://v0.app/chat/api/open?url=${url}`}
           target="_blank"
           rel="noopener"
-          aria-label="Open in v0"
+          aria-label="فتح في v0"
+          title="فتح في v0"
         >
           <V0Icon className="size-5" />
         </a>

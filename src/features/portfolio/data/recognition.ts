@@ -5,14 +5,7 @@ import { AWARDS } from "./awards"
 import { CERTIFICATIONS } from "./certifications"
 import { INTELLECTUAL_PROPERTY } from "./intellectual-property"
 
-/**
- * Entry keys shown first, in this order, so the strongest items stay above
- * the fold instead of sinking under newer but lesser entries.
- */
-export const RECOGNITION_PINNED_KEYS = [
-  "1b4db7eb-4057-5ddf-91e0-36dec72071f5", // Claude for Open Source Program
-  "05e1c61b-6dc1-11f0-8000-679dd01e0504", // Vercel OSS Program
-]
+export const RECOGNITION_PINNED_KEYS: string[] = []
 
 /**
  * Awards, certifications, and IP registrations merged into one list, newest
@@ -21,13 +14,15 @@ export const RECOGNITION_PINNED_KEYS = [
 export const RECOGNITION_BY_DATE: RecognitionEntry[] = [
   ...AWARDS.map((award) => ({
     kind: "award" as const,
-    key: award.id,
+    key: award.id || `${award.title}:${award.date}`,
     date: award.date,
     award,
   })),
   ...CERTIFICATIONS.map((credential) => ({
     kind: "certificate" as const,
-    key: credential.credentialURL,
+    key:
+      credential.credentialURL ||
+      `${credential.issuer}:${credential.title}:${credential.issueDate}`,
     date: credential.issueDate,
     credential,
   })),
@@ -37,7 +32,9 @@ export const RECOGNITION_BY_DATE: RecognitionEntry[] = [
       credential.issuerIconName === "copyright"
         ? ("copyright" as const)
         : ("trademark" as const),
-    key: credential.credentialURL,
+    key:
+      credential.credentialURL ||
+      `${credential.issuer}:${credential.title}:${credential.issueDate}`,
     date: credential.issueDate,
     credential,
   })),

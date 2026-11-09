@@ -4,6 +4,7 @@ import { useTheme } from "next-themes"
 import { useHotkeys } from "react-hotkeys-hook"
 
 import { META_THEME_COLORS } from "@/config/site"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { useClickSound } from "@/hooks/soundcn/use-click-sound"
 import { useMetaColor } from "@/hooks/use-meta-color"
 import {
@@ -18,6 +19,7 @@ import { Button } from "./ui/button"
 import { Kbd } from "./ui/kbd"
 
 export function ThemeToggle() {
+  const { t } = useLanguage()
   const { resolvedTheme, systemTheme, setTheme } = useTheme()
 
   const { setMetaColor } = useMetaColor()
@@ -46,7 +48,8 @@ export function ThemeToggle() {
             className="relative touch-manipulation border-none"
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle mode"
+            aria-label={t("theme.toggleMode")}
+            title={t("theme.toggleMode")}
             onClick={() => switchTheme()}
           >
             <span
@@ -64,7 +67,7 @@ export function ThemeToggle() {
       />
       <TooltipContent className="pr-2 pl-3">
         <div className="flex items-center gap-3">
-          Toggle mode
+          {t("theme.toggleMode")}
           <Kbd>D</Kbd>
         </div>
       </TooltipContent>

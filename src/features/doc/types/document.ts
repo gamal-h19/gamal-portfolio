@@ -1,6 +1,15 @@
 export type DocMetadata = {
   title: string
   description: string
+  seoTitle?: string
+  keywords?: string[]
+  focusKeyword?: string
+  secondaryKeywords?: string[]
+  imageAlt?: string
+  seriesId?: string
+  seriesTitle?: string
+  seriesNumber?: number
+  seriesLevel?: "Beginner" | "Intermediate" | "Advanced" | "Expert"
   /**
    * Social/OG image URL for the post.
    * Use an absolute URL or a path under /public. Recommended size: 1200x630.
@@ -25,13 +34,9 @@ export type DocMetadata = {
    * Set to `false` to hide the ad unit on the doc page. Ads show by default.
    */
   ads?: boolean
-  /**
-   * Post creation date as an ISO date string (e.g. YYYY-MM-DD). Used for sorting.
-   */
+  /** Post creation date, normalized to an ISO timestamp when MDX is read. */
   createdAt: string
-  /**
-   * Last updated date as an ISO date string (e.g. YYYY-MM-DD).
-   */
+  /** Last updated date, normalized to an ISO timestamp when MDX is read. */
   updatedAt: string
 }
 

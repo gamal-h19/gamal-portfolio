@@ -3,6 +3,7 @@
 import React from "react"
 import { LinkIcon } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import { CopyButton } from "@/components/copy-button"
 
@@ -17,6 +18,7 @@ export function Heading<T extends HeadingTypes = "h1">({
   ...props
 }: HeadingProps<T>): React.ReactElement {
   const Comp = as ?? "h1"
+  const { t } = useLanguage()
 
   if (!props.id) {
     return <Comp className={className} {...props} />
@@ -39,7 +41,7 @@ export function Heading<T extends HeadingTypes = "h1">({
         variant="ghost"
         text={() => createHeadingUrl(props.id || "")}
         idleIcon={<LinkIcon />}
-        aria-label="Copy link to section"
+        aria-label={t("action.copySectionLink")}
       />
     </Comp>
   )

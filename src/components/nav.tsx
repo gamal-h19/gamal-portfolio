@@ -22,11 +22,12 @@ export function Nav({
       className={cn("flex items-center gap-4", className)}
     >
       {items.map(({ title, href }) => {
+        const isHome = /^\/(?:ar|en)$/.test(href)
         const isActive = exactMatch
           ? activeId === href
           : activeId === href ||
-            (href === "/" // Home page
-              ? ["/", "/index"].includes(activeId || "")
+            (isHome
+              ? [href, `${href}/index`].includes(activeId || "")
               : activeId?.startsWith(href))
 
         return (
@@ -34,6 +35,11 @@ export function Nav({
             key={href}
             href={href}
             aria-current={isActive ? "page" : undefined}
+            className={
+              href === "/newsletter" || href === "/contact"
+                ? "text-xs tracking-normal"
+                : undefined
+            }
           >
             {title}
           </NavItem>

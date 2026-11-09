@@ -4,6 +4,7 @@ import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { XIcon } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -49,6 +50,8 @@ function DialogContent({
   showCloseButton?: boolean
   showOverlay?: boolean
 }) {
+  const { t } = useLanguage()
+
   return (
     <DialogPortal>
       {showOverlay && <DialogOverlay />}
@@ -73,7 +76,7 @@ function DialogContent({
             }
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t("common.close")}</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Popup>
@@ -99,6 +102,8 @@ function DialogFooter({
 }: React.ComponentProps<"div"> & {
   showCloseButton?: boolean
 }) {
+  const { t } = useLanguage()
+
   return (
     <div
       data-slot="dialog-footer"
@@ -111,7 +116,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close render={<Button variant="outline" />}>
-          Close
+          {t("common.close")}
         </DialogPrimitive.Close>
       )}
     </div>
@@ -122,7 +127,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-base leading-none font-medium", className)}
+      className={cn("text-base/none font-medium", className)}
       {...props}
     />
   )

@@ -11,8 +11,8 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "https://chanhdai.com/r/icon-swap.json",
-    "https://chanhdai.com/r/copy-button.json"
+    "https://ncdai.localhost/r/icon-swap.json",
+    "https://ncdai.localhost/r/copy-button.json"
   ],
   "files": [
     {

@@ -31,7 +31,14 @@ function formatAward({ award, date }: AwardRecognition) {
 }
 
 function formatCredential({ credential, date }: CredentialRecognition) {
-  return `- [${credential.title}](${credential.credentialURL}): issued by ${credential.issuer} on ${date}`
+  const title = credential.credentialURL
+    ? `[${credential.title}](${credential.credentialURL})`
+    : credential.title
+  const expiration = credential.expirationDate
+    ? ` | expired on ${credential.expirationDate}`
+    : ""
+
+  return `- ${title}: issued by ${credential.issuer} on ${date}${expiration}`
 }
 
 const content = `# Recognition

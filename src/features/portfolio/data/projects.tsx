@@ -1,158 +1,96 @@
-import { ChanhDaiMark } from "@/components/chanhdai-mark"
 import {
-  QuaricIcon,
-  ReactWheelPickerIcon,
-  ZaDarkIcon,
-} from "@/components/icons"
+  ActivityIcon,
+  BotIcon,
+  Building2Icon,
+  HeartPulseIcon,
+} from "lucide-react"
 
 import type { Project } from "../types/projects"
 
 export const PROJECTS: Project[] = [
   {
-    id: "react-wheel-picker",
-    title: "React Wheel Picker",
+    id: "ynmo-daycare",
+    title: "Ynmo Daycare",
     period: {
-      start: "05.2025",
+      start: "11.2022",
     },
-    link: "https://react-wheel-picker.chanhdai.com",
+    link: "/case-studies/ynmo-daycare",
     skills: [
-      "Open Source",
-      "React",
-      "TypeScript",
-      "Monorepo",
-      "Turborepo",
-      "pnpm-workspace",
-      "Package Publishing",
-      "NPM Registry",
-      "GitHub Actions",
+      "UX Research",
+      "SaaS Design",
+      "Arabic RTL Localization",
+      "Multi-Role Workflows",
+      "Web & Mobile",
     ],
-    description: `iOS-like wheel picker for React with smooth inertia scrolling and infinite loop support. / Backed by [▲ Vercel OSS Program](https://vercel.com/blog/summer-2025-oss-program#react-wheel-picker)
-- Natural touch scrolling with smooth inertia, mouse drag and scroll for desktop
-- Infinite loop scrolling
-- Unstyled core for complete style customization
-- Full keyboard navigation and type-ahead search
+    description: `Daycare and nursery management SaaS platform designed for multi-role operational workflows.
+- Web management portal and mobile applications for nursery managers, teachers, and parents.
+- Native Arabic RTL experience and localized educational workflows.
+- Role: UX Researcher & UX Designer.
 `,
-    icon: <ReactWheelPickerIcon />,
+    icon: <Building2Icon />,
     isExpanded: true,
   },
   {
-    id: "chanhdaidotcom",
-    title: "chanhdai.com",
+    id: "ynmo-tifli",
+    title: "Ynmo Tifli",
     period: {
-      start: "01.2025",
+      start: "11.2022",
     },
-    link: "https://github.com/ncdai/chanhdai.com",
+    link: "/case-studies/ynmo-tifli",
     skills: [
-      "Open Source",
-      "Next.js 16",
-      "Tailwind CSS v4",
-      "Radix UI",
-      "Base UI",
-      "Motion",
-      "shadcn/ui",
-      "shadcn registry",
-      "Vercel",
+      "Mobile UX",
+      "User Research",
+      "Arabic RTL Experience",
+      "Child Development",
     ],
-    description: "A pixel-perfect dev portfolio and shadcn registry.",
-    icon: <ChanhDaiMark />,
-  },
-  {
-    id: "quaricdotcom",
-    title: "quaric.com",
-    period: {
-      start: "03.2024",
-      end: "07.2025",
-    },
-    link: "https://quaric.com",
-    skills: [
-      "Company Project",
-      "Next.js 15",
-      "Tailwind CSS v3",
-      "shadcn/ui",
-      "Strapi 5",
-      "VNPAY-QR",
-      "Docker",
-      "Docker Compose",
-      "NGINX",
-    ],
-    icon: <QuaricIcon />,
-  },
-  {
-    id: "zadark",
-    title: "ZaDark",
-    period: {
-      start: "01.2022",
-    },
-    link: "https://zadark.com",
-    skills: [
-      "Pet Project",
-      "Open Source",
-      "Browser Extension",
-      "CLI",
-      "Docusaurus 3",
-    ],
-    description: `ZaDark adds Dark Mode, anti-peeking, customizable fonts, backgrounds, and more to Zalo Web and PC.
-- Earned 10M+ VND in net sales from a paid Safari Extension*
-- 80k+ downloads on SourceForge* (awarded Community Leader badge by SourceForge)
-- 30k+ active users via Chrome Web Store*
-- Bronze Medal — 10th Design, Manufacturing, and Application Award 2022
-
-<p class="text-muted-foreground">* Peak metrics.</p>
+    description: `Child-focused mobile experience within the Ynmo ecosystem connecting developmental milestones with parental care.
+- Approachable, empathetic timeline tracking child development and daily activities.
+- Available on the iOS App Store.
+- Role: UX Researcher & UX Designer.
 `,
-    icon: <ZaDarkIcon />,
+    icon: <ActivityIcon />,
   },
   {
-    id: "penphy",
-    title: "Penphy",
+    id: "elitevet",
+    title: "EliteVet",
     period: {
-      start: "01.2019",
-      end: "08.2019",
+      start: "01.2023",
+      end: "12.2024",
     },
-    link: "https://www.youtube.com/watch?v=EdU7rUO-UA4",
-    skills: ["Startup Project", "JavaScript", "React Native"],
-    description: "2nd Prize — Business Startup Competition 2019",
-  },
-  {
-    id: "unlimitedstudy",
-    title: "UnlimitedStudy",
-    period: {
-      start: "01.2017",
-      end: "08.2018",
-    },
-    link: "https://muctim.tuoitre.vn/cong-cu-ho-tro-viec-day-va-hoc-55107.htm",
+    link: "/case-studies/elitevet",
     skills: [
-      "National Competition",
-      "Creative Software",
-      "PHP",
-      "Laravel 4",
-      "MySQL",
-      "jQuery",
-      "Bootstrap 3",
+      "Product Manager & UX Lead",
+      "RICE Prioritization",
+      "Clinical Workflows",
+      "Pharmaceutical Inventory",
+      "Sprint Planning",
     ],
-    description: `UnlimitedStudy is a website that provides teaching and learning support tools for teachers and students.
-- 3rd Prize — National Science and Engineering Fair 2018 (ViSEF)
-- 3rd Prize — National Young Informatics Contest 2018
-- Reached 7k+ users, mainly high school students in Can Tho City
-- Pilot implemented in high schools across Can Tho City with English quizzes, supervised by English subject specialists from the Can Tho City Department of Education and Training`,
+    description: `AI-enabled SaaS platform for veterinary clinics and animal hospitals in the Middle East.
+- Complex workflows: batches, expiry tracking, dispensing restrictions, reception queue, and multi-branch management.
+- Coordinated dev team, sprint planning, and authored comprehensive user stories and acceptance criteria.
+- Role: Product Manager & UX Lead.
+`,
+    icon: <HeartPulseIcon />,
   },
   {
-    id: "study-english",
-    title: "Study English",
+    id: "daawa",
+    title: "Daawa",
     period: {
-      start: "11.2016",
-      end: "12.2017",
+      start: "01.2026",
     },
-    link: "https://www.youtube.com/watch?v=OYgugvjqU4A",
+    link: "/case-studies/daawa",
     skills: [
-      "National Competition",
-      "Creative Software",
-      "PHP",
-      "Laravel 4",
-      "MySQL",
+      "Product Strategy",
+      "LegalTech SaaS",
+      "Legal AI Agent",
+      "Funnel Optimization",
+      "UX Redesign",
     ],
-    description: `Study English is a free, mobile-friendly website for high school English learning, offering vocabulary, quizzes, listening practice, and more.
-- Consolation Prize — National Youth and Children’s Creativity Contest 2016
-- 1st Prize — Can Tho City Youth and Children’s Creativity Contest 2016
-- Consolation Prize — Can Tho City Young Informatics Contest 2016`,
+    description: `Legal management system modernizing case workflows and client onboarding.
+- UX redesign, client progress tracking, and retention funnel optimization.
+- Defined Phase 1 of Legal AI Agent for document synthesis and task automation.
+- Role: PM & UX Strategy (Freelance), 2026–Present.
+`,
+    icon: <BotIcon />,
   },
 ]

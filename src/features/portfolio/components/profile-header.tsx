@@ -1,87 +1,62 @@
-import { USER } from "@/features/portfolio/data/user"
+"use client"
 
-import { ChanhDaiMarkIsometric } from "./chanhdai-mark-isometric"
+import Image from "next/image"
+
+import { USER_AR } from "@/features/portfolio/data/user-ar"
+
 import { DiameterDimension } from "./diameter-dimension"
-import { HandwrittenArrow, HandwrittenNote } from "./handwritten-note"
 import { ProfileTaglines } from "./profile-taglines"
-import { PronounceMyName } from "./pronounce-my-name"
-import { VerifiedIcon } from "./verified-icon"
 
 export function ProfileHeader() {
+  const user = USER_AR
+
   return (
-    <div className="screen-line-bottom grid grid-cols-[auto_1fr] grid-rows-[1fr_auto] overflow-y-clip border-x border-x-line after:z-1">
-      <figure className="relative col-span-2 p-2 sm:col-span-1 sm:col-start-2 sm:p-4">
-        <ChanhDaiMarkIsometric />
-
-        {/* w-36 needs ~1088px before the gutter can hold it without clipping,
-            and the mark ignores coarse pointers, so nothing to annotate there. */}
-        <HandwrittenNote
-          className="bottom-20 left-full hidden w-36 flex-col items-start pointer-fine:xl:flex"
-          aria-hidden
-        >
-          <HandwrittenArrow className="-scale-y-100 -rotate-6" />
-          <span className="ml-3 -rotate-6">
-            follows your cursor
-            <span className="block" />
-            click for a sound
-          </span>
-        </HandwrittenNote>
-      </figure>
-
-      <div className="flex flex-col sm:row-span-2 sm:row-start-1">
-        <div className="screen-line-top mt-auto shrink-0 border-r border-line">
-          <div className="-mx-px my-0 flex outline-none">
-            <div className="relative z-10 size-30 rounded-full min-[24rem]:size-32 sm:size-40">
-              <img
-                className="block size-full rounded-[inherit] object-cover select-none dark:hidden"
-                src={USER.avatarOutline}
-                alt="Avatar outline style"
-              />
-              <img
-                className="hidden size-full rounded-[inherit] object-cover select-none dark:block"
-                src={USER.avatarMonochrome}
-                alt="Avatar monochrome style"
-              />
-              <div className="pointer-events-none absolute inset-0 rounded-[inherit] inset-ring-1 inset-ring-foreground dark:inset-ring-foreground/20" />
-
-              {/* The label assumes size-40 (sm+); the gutter fits it from lg. */}
-              <DiameterDimension
-                className="-z-1 hidden lg:block"
-                diameter={160}
-              />
+    <div
+      dir="rtl"
+      className="group/profile-header screen-line-top screen-line-bottom relative overflow-y-clip border-x border-x-line after:z-1"
+    >
+      {/* Main Profile Info Header */}
+      <div className="grid grid-cols-[auto_minmax(0,1fr)] overflow-y-clip">
+        <div className="flex flex-col">
+          <div className="mt-auto shrink-0 border-e border-line">
+            <div className="-mx-px my-0 flex outline-none">
+              <div className="relative z-10 size-28 overflow-hidden rounded-full border border-line bg-muted/60 text-foreground select-none min-[24rem]:size-32 sm:size-36">
+                <Image
+                  src="/images/gamal-portrait.jpg"
+                  alt="صورة شخصية لجمال حسن"
+                  fill
+                  sizes="(max-width: 24rem) 112px, (max-width: 640px) 128px, 144px"
+                  preload
+                  className="object-cover object-[58%_35%] grayscale transition-[filter] duration-300 ease-[cubic-bezier(0.42,0,0.58,1)] group-hover/profile-header:grayscale-0"
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-[inherit] inset-ring-1 inset-ring-border" />
+                <DiameterDimension
+                  className="-z-1 hidden lg:block"
+                  diameter={144}
+                />
+              </div>
             </div>
           </div>
-          {/* <AvatarLightsToggle className="group/avatar-lights-toggle mx-0.5 my-0.75 flex outline-none">
-            <AvatarLights
-              className="ring-border ring-offset-background group-focus-visible/avatar-lights-toggle:ring-1 group-focus-visible/avatar-lights-toggle:ring-offset-2"
-              variants={USER.avatarVariants}
-            />
-          </AvatarLightsToggle> */}
         </div>
-      </div>
 
-      <div className="flex flex-col">
-        <div className="z-1 mt-auto border-t border-line">
-          <div className="flex -translate-x-px items-center gap-2 pl-4">
-            <h1
-              className="-translate-y-px text-[2rem]/none font-medium tracking-tight"
-              lang="vi"
-            >
-              {USER.displayName}
-            </h1>
+        <div className="flex min-w-0 flex-col justify-end">
+          <div className="z-1 border-t border-line">
+            <div className="flex translate-x-px items-center gap-2 px-4 py-2">
+              <h1 className="max-w-full min-w-0 -translate-y-px font-eight font-features-['ss01','zero'] text-xl leading-[1.2] font-medium tracking-[0.5px] text-balance wrap-break-word sm:text-[1.65rem]">
+                أهلًا، أنا {user.displayName} 👋
+              </h1>
+            </div>
 
-            <VerifiedIcon className="size-4.5 select-none" aria-hidden />
+            <div className="flex items-center gap-2 border-t border-line px-4 py-1.5 text-xs font-medium text-muted-foreground sm:text-sm">
+              <span className="font-medium text-foreground">
+                {user.jobTitle}
+              </span>
+            </div>
 
-            {USER.namePronunciationUrl && (
-              <PronounceMyName
-                namePronunciationUrl={USER.namePronunciationUrl}
-              />
-            )}
+            <ProfileTaglines className="h-10 border-t border-line px-4 py-1 sm:h-9">
+              {user.taglines}
+            </ProfileTaglines>
           </div>
-
-          <ProfileTaglines className="h-12.5 border-t border-line py-1 pl-4 sm:h-9">
-            {USER.taglines}
-          </ProfileTaglines>
         </div>
       </div>
     </div>

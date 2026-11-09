@@ -8,6 +8,7 @@ import { MailIcon } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 
 import { trackEvent } from "@/lib/events"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { useIsClient } from "@/hooks/use-is-client"
 import { toast } from "@/components/ui/toast"
 import { CopyButton } from "@/components/copy-button"
@@ -28,20 +29,25 @@ export function EmailItem({ emailB64 }: EmailItemProps) {
   const id = useId()
   const isClient = useIsClient()
   const emailDecoded = decodeEmail(emailB64)
+  const { t } = useLanguage()
 
   const { success } = useTiks()
 
-  useHotkeys("shift+e", () => {
-    copyToClipboardWithEvent(emailDecoded, {
-      name: "copy_email",
-      properties: {
-        method: "keyboard",
-        key: "shift+e",
-      },
-    })
-    success()
-    toast.add({ type: "success", title: "Email copied" })
-  })
+  useHotkeys(
+    "shift+e",
+    () => {
+      copyToClipboardWithEvent(emailDecoded, {
+        name: "copy_email",
+        properties: {
+          method: "keyboard",
+          key: "shift+e",
+        },
+      })
+      success()
+      toast.add({ type: "success", title: t("contact.emailCopied") })
+    },
+    [emailDecoded, success, t]
+  )
 
   return (
     <IntroItem className="group">
@@ -52,6 +58,7 @@ export function EmailItem({ emailB64 }: EmailItemProps) {
       <IntroItemContent className="flex">
         <IntroItemLink
           id={id}
+          dir="ltr"
           href={isClient ? `mailto:${emailDecoded}` : ""}
           suppressHydrationWarning
         >
@@ -61,6 +68,7 @@ export function EmailItem({ emailB64 }: EmailItemProps) {
 
       <div className="-translate-x-2.5 opacity-0 transition-opacity ease-out group-hover:opacity-100 group-has-focus-visible:opacity-100 pointer-coarse:opacity-100">
         <CopyButton
+          aria-label={t("action.copy")}
           className="rounded-md border-none text-muted-foreground [&_svg:not([class*='size-'])]:size-3.5"
           variant="ghost"
           size="icon-xs"

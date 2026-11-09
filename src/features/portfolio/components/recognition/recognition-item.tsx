@@ -42,10 +42,10 @@ import type {
 } from "@/features/portfolio/types/recognition"
 
 const KIND_LABELS: Record<RecognitionKind, string> = {
-  award: "Award",
-  certificate: "Certificate",
-  trademark: "Trademark",
-  copyright: "Copyright",
+  award: "جائزة",
+  certificate: "شهادة",
+  trademark: "علامة تجارية",
+  copyright: "حقوق النشر",
 }
 
 // Closed map keyed by `issuerIconName`, so the bundle only keeps icons that can
@@ -98,18 +98,18 @@ function AwardRow({ entry }: { entry: AwardRecognition }) {
               <KindTerm kind="award" />
 
               <div>
-                <dt className="sr-only">Prize</dt>
+                <dt className="sr-only">الجائزة</dt>
                 <dd>{award.prize}</dd>
               </div>
 
               <MetaSeparator />
 
-              <DateTerm label="Awarded in" date={date} />
+              <DateTerm label="تاريخ الحصول" date={date} />
 
               <MetaSeparator />
 
               <div>
-                <dt className="sr-only">Received in Grade</dt>
+                <dt className="sr-only">التقدير</dt>
                 <dd>{award.grade}</dd>
               </div>
             </dl>
@@ -124,14 +124,15 @@ function AwardRow({ entry }: { entry: AwardRecognition }) {
                     href={award.referenceLink}
                     target="_blank"
                     rel="noopener"
-                    aria-label="Open reference attachment"
+                    aria-label="فتح مرفق المرجع"
+                    title="فتح مرفق المرجع"
                   >
                     <PaperclipIcon />
                   </a>
                 }
               />
               <TooltipContent>
-                <p>Open reference attachment</p>
+                <p>فتح مرفق المرجع</p>
               </TooltipContent>
             </Tooltip>
           )}
@@ -168,17 +169,21 @@ function CredentialRow({ entry }: { entry: CredentialRecognition }) {
 
       <div className="flex-1 space-y-1 border-l border-dashed border-line p-4">
         <h3 className="leading-snug font-medium text-balance">
-          <a href={credential.credentialURL} target="_blank" rel="noopener">
-            <span className="absolute inset-0" aria-hidden />
-            {credential.title}
-          </a>
+          {credential.credentialURL ? (
+            <a href={credential.credentialURL} target="_blank" rel="noopener">
+              <span className="absolute inset-0" aria-hidden />
+              {credential.title}
+            </a>
+          ) : (
+            credential.title
+          )}
         </h3>
 
         <dl className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
           <KindTerm kind={kind} />
 
           <div>
-            <dt className="sr-only">Issued by</dt>
+            <dt className="sr-only">الجهة المانحة</dt>
             <dd>
               <span aria-hidden>@</span>
               <span className="ml-0.5">{credential.issuer}</span>
@@ -187,11 +192,23 @@ function CredentialRow({ entry }: { entry: CredentialRecognition }) {
 
           <MetaSeparator />
 
-          <DateTerm label="Issued on" date={date} />
+          <DateTerm label="تاريخ الإصدار" date={date} />
+
+          {credential.expirationDate && (
+            <>
+              <MetaSeparator />
+              <DateTerm
+                label="تاريخ الانتهاء"
+                date={credential.expirationDate}
+              />
+            </>
+          )}
         </dl>
       </div>
 
-      <ArrowUpRightIcon className="size-4 text-muted-foreground" />
+      {credential.credentialURL && (
+        <ArrowUpRightIcon className="size-4 text-muted-foreground" />
+      )}
     </div>
   )
 }
@@ -201,7 +218,7 @@ function CredentialRow({ entry }: { entry: CredentialRecognition }) {
 function KindTerm({ kind }: { kind: RecognitionKind }) {
   return (
     <div className="max-sm:mb-1 max-sm:basis-full">
-      <dt className="sr-only">Type</dt>
+      <dt className="sr-only">النوع</dt>
       <dd>
         <Tag className="flex h-5 w-fit">{KIND_LABELS[kind]}</Tag>
       </dd>
@@ -216,7 +233,9 @@ function DateTerm({ label, date }: { label: string; date: string }) {
     <div>
       <dt className="sr-only">{label}</dt>
       <dd>
-        <time dateTime={date}>{format(new Date(date), "MM.yyyy")}</time>
+        <time dateTime={date}>
+          {format(new Date(date), date.length === 4 ? "yyyy" : "MM.yyyy")}
+        </time>
       </dd>
     </div>
   )

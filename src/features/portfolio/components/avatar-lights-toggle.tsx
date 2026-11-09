@@ -14,7 +14,8 @@ export function AvatarLightsToggle(
 
   return (
     <button
-      aria-label="Toggle Avatar Lights"
+      aria-label="تبديل إضاءة الصورة"
+      title="تبديل إضاءة الصورة"
       onClick={toggleLights}
       {...props}
     />

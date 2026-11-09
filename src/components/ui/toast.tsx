@@ -11,6 +11,7 @@ import {
   XIcon,
 } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -128,10 +129,12 @@ function ToastClose({
   render = <Button variant="ghost" size="icon-sm" />,
   ...props
 }: ToastPrimitive.Close.Props) {
+  const { t } = useLanguage()
+
   return (
     <ToastPrimitive.Close
       data-slot="toast-close"
-      aria-label="Close toast"
+      aria-label={t("common.closeToast")}
       render={render}
       className={cn(
         "relative shrink-0 text-muted-foreground after:absolute after:-inset-2 after:content-[''] hover:text-foreground",

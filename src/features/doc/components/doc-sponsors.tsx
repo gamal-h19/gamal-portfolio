@@ -26,9 +26,7 @@ export function DocSponsors() {
 
   return (
     <>
-      <div className="screen-dashed-line-top before:opacity-80">
-        <div className="screen-line-top h-px overflow-x-clip" />
-      </div>
+      <div className="screen-dashed-line-top" />
 
       <div className="p-4">
         <aside
@@ -40,11 +38,12 @@ export function DocSponsors() {
               id="doc-sponsors-heading"
               className="font-heading text-sm/none font-medium text-muted-foreground"
             >
-              Sponsors
+              الداعمون
             </h2>
 
             <Button
-              aria-label="Close"
+              aria-label="إغلاق"
+              title="إغلاق"
               className="size-7 rounded-lg border-none text-muted-foreground"
               variant="ghost"
               size="icon-sm"
@@ -65,7 +64,7 @@ export function DocSponsors() {
                   href={addQueryParams(item.url, UTM_PARAMS)}
                   target="_blank"
                   rel="noopener sponsored"
-                  aria-label={`${item.name} logo`}
+                  aria-label={`شعار ${item.name}`}
                 >
                   <item.logo aria-hidden />
                 </a>
@@ -74,8 +73,7 @@ export function DocSponsors() {
           </ul>
 
           <p className="px-3 pt-2 pb-1.5 text-sm text-balance text-muted-foreground">
-            Thanks to these sponsors, every component here stays free and built
-            with care.
+            بفضل هؤلاء الداعمين، تبقى كل المكونات هنا مجانية ومصممة بعناية.
           </p>
         </aside>
       </div>

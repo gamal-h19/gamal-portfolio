@@ -106,7 +106,8 @@ export function FloatingCarbonAds() {
             className="size-7 translate-x-2 rounded-lg border-none text-muted-foreground"
             variant="ghost"
             size="icon-sm"
-            aria-label="Close ad"
+            aria-label="إغلاق الإعلان"
+            title="إغلاق الإعلان"
             onClick={() => close(shownAt)}
           >
             <XIcon />

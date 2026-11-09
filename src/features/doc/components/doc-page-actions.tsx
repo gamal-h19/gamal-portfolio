@@ -7,9 +7,10 @@ import { useTiks } from "@rexa-developer/tiks/react"
 import { IconCheck, IconCopy, IconX } from "@tabler/icons-react"
 import { ChevronDownIcon } from "lucide-react"
 
+import { SOURCE_CODE_GITHUB_URL } from "@/config/site"
 import type { CopyState } from "@/hooks/use-copy-to-clipboard"
 import { Button } from "@/components/ui/button"
-import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group"
+import { ButtonGroup } from "@/components/ui/button-group"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,7 +79,8 @@ export function LLMCopyButton({ markdownUrl }: { markdownUrl: string }) {
 
   return (
     <Button
-      className="h-7 gap-1.5 border-none px-2 text-[0.8125rem] active:scale-none"
+      dir="rtl"
+      className="h-7 flex-row-reverse gap-1.5 border-none px-2 text-[0.8125rem] active:scale-none"
       variant="secondary"
       size="sm"
       aria-busy={isCopying}
@@ -91,7 +93,7 @@ export function LLMCopyButton({ markdownUrl }: { markdownUrl: string }) {
         doneIcon={<IconCheck />}
         errorIcon={<IconX />}
       />
-      <span className="max-[28rem]:hidden">Copy page</span>
+      <span className="max-[28rem]:hidden">نسخ الصفحة</span>
     </Button>
   )
 }
@@ -124,18 +126,21 @@ export function ViewOptions({
 
     const _items = [
       {
-        title: "View as Markdown",
+        title: "عرض كـ Markdown",
         href: fullMarkdownUrl,
         icon: MarkdownIcon,
       },
+      ...(SOURCE_CODE_GITHUB_URL
+        ? [
+            {
+              title: "فتح في GitHub",
+              href: `${SOURCE_CODE_GITHUB_URL}/blob/main/src/features/doc/content/${markdownUrl.replace(/^\//, "").replace(/\.md$/, ".mdx")}`,
+              icon: GitHubIcon,
+            },
+          ]
+        : []),
       {
-        title: "Open in GitHub",
-        // Source files remain .mdx even though the public URL uses .md
-        href: `https://github.com/ncdai/chanhdai.com/blob/main/src/features/doc/content/${markdownUrl.replace(/^\//, "").replace(/\.md$/, ".mdx")}`,
-        icon: GitHubIcon,
-      },
-      {
-        title: "Open in ChatGPT",
+        title: "فتح في ChatGPT",
         href: `https://chatgpt.com/?${new URLSearchParams({
           hints: "search",
           q,
@@ -143,28 +148,28 @@ export function ViewOptions({
         icon: OpenAIIcon,
       },
       {
-        title: "Open in Claude",
+        title: "فتح في Claude",
         href: `https://claude.ai/new?${new URLSearchParams({
           q,
         })}`,
         icon: ClaudeIcon,
       },
       {
-        title: "Open in Cursor",
+        title: "فتح في Cursor",
         href: `https://cursor.com/link/prompt?${new URLSearchParams({
           text: q,
         })}`,
         icon: CursorIcon,
       },
       {
-        title: "Open in Grok",
+        title: "فتح في Grok",
         href: `https://grok.com/?${new URLSearchParams({
           q,
         })}`,
         icon: GrokIcon,
       },
       {
-        title: "Open in Scira AI",
+        title: "فتح في Scira AI",
         href: `https://scira.ai/?${new URLSearchParams({
           q,
         })}`,
@@ -174,7 +179,7 @@ export function ViewOptions({
 
     if (isComponent) {
       _items.splice(2, 0, {
-        title: "Open in v0",
+        title: "فتح في v0",
         href: `https://v0.app/?${new URLSearchParams({
           q,
         })}`,
@@ -193,7 +198,8 @@ export function ViewOptions({
             className="size-7 border-none active:scale-none"
             variant="secondary"
             size="icon-sm"
-            aria-label="View Options"
+            aria-label="خيارات العرض"
+            title="خيارات العرض"
           />
         }
       >
@@ -202,7 +208,7 @@ export function ViewOptions({
 
       <DropdownMenuContent
         className="w-fit"
-        align="start"
+        align="end"
         alignOffset={-6}
         collisionPadding={16}
         finalFocus={false}
@@ -229,10 +235,9 @@ export function LLMCopyButtonWithViewOptions({
   isComponent?: boolean
 }) {
   return (
-    <ButtonGroup>
-      <LLMCopyButton markdownUrl={markdownUrl} />
-      <ButtonGroupSeparator className="border-y-4 border-secondary dark:bg-white/20 data-vertical:my-0" />
+    <ButtonGroup dir="ltr">
       <ViewOptions markdownUrl={markdownUrl} isComponent={isComponent} />
+      <LLMCopyButton markdownUrl={markdownUrl} />
     </ButtonGroup>
   )
 }

@@ -1,6 +1,9 @@
+"use client"
+
 import { addQueryParams } from "@/utils/url"
 
 import { UTM_PARAMS } from "@/config/site"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import {
   Tooltip,
@@ -16,47 +19,51 @@ import { SOCIAL_ICONS } from "@/features/portfolio/components/social-link-icons"
 import { SOCIAL_LINKS } from "@/features/portfolio/data/social-links"
 
 export function SocialLinks() {
-  return (
-    <Panel className="screen-line-bottom-none screen-line-top-none">
-      <h2 className="sr-only">Social links</h2>
+  const { t } = useLanguage()
 
-      <PanelContent>
-        <ul className="flex flex-wrap gap-2">
-          {SOCIAL_LINKS.map((item) => (
-            <li key={item.name}>
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <Button
-                      className="text-foreground/80 shadow-none [&_svg:not([class*='size-'])]:size-4.5"
-                      variant="outline"
-                      size="icon-sm"
-                      nativeButton={false}
-                      render={
-                        <a
-                          href={addQueryParams(item.href, UTM_PARAMS)}
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          {SOCIAL_ICONS[item.name]}
-                          <span className="sr-only">{item.title}</span>
-                        </a>
-                      }
-                    />
-                  }
-                />
-                <TooltipContent>
-                  {item.title} ({item.handle})
-                </TooltipContent>
-              </Tooltip>
-            </li>
-          ))}
-        </ul>
+  return (
+    <Panel className="relative screen-line-top-none">
+      <h2 className="sr-only">{t("social.title")}</h2>
+
+      <PanelContent className="py-2">
+        <div className="flex items-center gap-3">
+          <ul className="flex flex-wrap gap-2">
+            {SOCIAL_LINKS.map((item) => (
+              <li key={item.name}>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        className="text-foreground/80 shadow-none [&_svg:not([class*='size-'])]:size-4.5"
+                        variant="outline"
+                        size="icon-sm"
+                        nativeButton={false}
+                        render={
+                          <a
+                            href={addQueryParams(item.href, UTM_PARAMS)}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            {SOCIAL_ICONS[item.name]}
+                            <span className="sr-only">{item.title}</span>
+                          </a>
+                        }
+                      />
+                    }
+                  />
+                  <TooltipContent>
+                    {item.title} ({item.handle})
+                  </TooltipContent>
+                </Tooltip>
+              </li>
+            ))}
+          </ul>
+        </div>
       </PanelContent>
 
-      <HandwrittenNote className="-top-7 right-full mr-4 hidden w-20 flex-col items-end lg:flex">
-        <span className="-rotate-6">follow me</span>
-        <HandwrittenArrow className="size-7 translate-x-3 -scale-x-100 -rotate-6" />
+      <HandwrittenNote className="-top-5 left-full ml-2 hidden w-20 flex-col items-start lg:flex">
+        <span className="-rotate-6 font-sans">{t("social.follow")}</span>
+        <HandwrittenArrow className="size-7 -translate-x-3 -rotate-6" />
       </HandwrittenNote>
     </Panel>
   )

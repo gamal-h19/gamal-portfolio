@@ -1,68 +1,79 @@
 import type { User } from "@/features/portfolio/types/user"
 
 export const USER: User = {
-  firstName: "Chánh Đại",
-  lastName: "Nguyễn",
-  displayName: "Chánh Đại",
-  username: "ncdai",
+  firstName: "Gamal",
+  lastName: "Hassan",
+  displayName: "Gamal Hassan",
+  username: "gamalhassan",
   gender: "male",
   pronouns: "he/him",
-  bio: "Creating with code. Small details matter.",
+  bio: "I help teams turn user needs into clear, useful digital products that are easy to adopt and simple to grow.",
   taglines: [
-    "Creating with code. Small details matter.",
-    "Design Engineer.",
-    "Open source contributor.",
-    "I own a vintage iPhone.",
+    "UX Design & Research.",
+    "Product Strategy.",
+    "AI Product Thinking.",
+    "B2B SaaS & Growth.",
   ],
-  address: "Ho Chi Minh City, Viet Nam",
-  phoneNumberB64: "Kzg0Nzc3ODg4MTQ4", // E.164 format, base64 encoded (https://t.io.vn/base64-string-converter)
-  emailB64: "ZGFpQGNoYW5oZGFpLmNvbQ==", // base64 encoded
-  website: "https://chanhdai.com",
-  jobTitle: "Design Engineer",
+  address: "Cairo, Egypt",
+  phoneNumberB64: "KzIwMTAwNzgxNzk3OA==", // E.164 format (+201007817978), base64 encoded
+  emailB64: "Z2FtYWwuaHRnQGdtYWlsLmNvbQ==", // base64 encoded (gamal.htg@gmail.com)
+  website: "",
+  jobTitle: "UX Designer • Researcher • Product Manager",
   jobs: [
     {
-      title: "Design Engineer",
-      company: "shadcncraft",
-      website: "https://shadcncraft.com?atp=ncdai",
-      experienceId: "shadcncraft",
+      title: "PM & UX Strategy (Freelance)",
+      company: "Daawa",
+      website: "",
+      experienceId: "daawa",
     },
-    // {
-    //   title: "Founder",
-    //   company: "Quaric",
-    //   website: "https://quaric.com",
-    //   experienceId: "quaric",
-    // },
+    {
+      title: "Product Manager & UX Lead",
+      company: "EliteVet",
+      website: "",
+      experienceId: "elitevet",
+    },
+    {
+      title: "UX Researcher & UX Designer",
+      company: "Ynmo",
+      website: "https://ynmo.org",
+      experienceId: "ynmo",
+    },
   ],
-  about: `- I’m Chánh Đại (call me Dai) — a Design Engineer with 5+ years of experience, known for pixel-perfect execution and obsessive attention to detail.
-- Passionate about exploring new technologies and turning ideas into reality through polished, thoughtfully crafted projects.
-- Creator of [chanhdai.com](https://github.com/ncdai/chanhdai.com) (2.4K stars), [React Wheel Picker](https://react-wheel-picker.chanhdai.com) (1.4M+ downloads, ▲ Vercel OSS Program), and [ZaDark](https://zadark.com) (80K+ downloads, 30K+ users) — peak metrics.
+  about: `- I’m Gamal Hassan — a UX designer, researcher, and product manager helping teams build digital products that are clear, useful, and easy to trust.
+- I work at the intersection of user research, product strategy, and interface design, turning messy problems into practical, scalable experiences.
+- My work spans legal workflows, clinic operations, childcare systems, and product experiences designed for real users and real business goals.
 `,
-  avatar: "https://assets.chanhdai.com/images/chanhdai-avatar-ghibli.webp",
-  avatarOutline:
-    "https://assets.chanhdai.com/images/avatar-macbook-outline.webp?t=1793321200",
-  avatarMonochrome:
-    "https://assets.chanhdai.com/images/avatar-macbook-monochrome.webp?t=1793321200",
+  avatar: "",
+  avatarOutline: "",
+  avatarMonochrome: "",
   avatarVariants: {
-    lightOff: "https://assets.chanhdai.com/images/avatar-light-off.webp",
-    lightOn: "https://assets.chanhdai.com/images/avatar-light-on.webp",
-    darkOff: "https://assets.chanhdai.com/images/avatar-dark-off.webp",
-    darkOn: "https://assets.chanhdai.com/images/avatar-dark-on.webp",
+    lightOff: "",
+    lightOn: "",
+    darkOff: "",
+    darkOn: "",
   },
-  ogImage:
-    "https://assets.chanhdai.com/images/screenshot-og-image-dark.png?t=1778602757",
-  namePronunciationUrl: "https://assets.chanhdai.com/audio/chanhdai.mp3",
-  timeZone: "Asia/Ho_Chi_Minh",
+  ogImage: "",
+  namePronunciationUrl: "",
+  timeZone: "Africa/Cairo",
   keywords: [
-    "ncdai",
-    "nguyenchanhdai",
-    "nguyen chanh dai",
-    "chanhdai",
-    "chanh dai",
-    "iamncdai",
-    "quaric",
-    "zadark",
-    "nguyễn chánh đại",
-    "chánh đại",
+    "Gamal Hassan",
+    "gamalhassan",
+    "UX Designer",
+    "UX Researcher",
+    "Product Manager",
+    "AI-Driven SaaS",
+    "UX Strategy",
+    "Product Growth",
+    "Design Systems",
+    "User Experience",
+    "Egypt",
+    "مصمم تجربة المستخدم",
+    "باحث تجربة المستخدم",
+    "مدير المنتجات",
+    "أبحاث المستخدمين",
+    "استراتيجية المنتجات الرقمية",
+    "تصميم المنتجات الرقمية",
+    "منصات SaaS",
   ],
-  dateCreated: "2023-10-20", // YYYY-MM-DD
+  dateCreated: "2026-11-03", // YYYY-MM-DD
 }

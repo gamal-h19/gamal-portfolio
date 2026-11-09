@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import {
   Dialog,
@@ -30,8 +31,8 @@ function Command({
 }
 
 function CommandDialog({
-  title = "Command Palette",
-  description = "Search for a command to run...",
+  title,
+  description,
   children,
   ...props
 }: Omit<React.ComponentProps<typeof Dialog>, "children"> & {
@@ -39,11 +40,17 @@ function CommandDialog({
   description?: string
   children: React.ReactNode
 }) {
+  const { t } = useLanguage()
+
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
-        <DialogTitle render={<span />}>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
+        <DialogTitle render={<span />}>
+          {title ?? t("command.title")}
+        </DialogTitle>
+        <DialogDescription>
+          {description ?? t("command.description")}
+        </DialogDescription>
       </DialogHeader>
 
       <DialogContent
@@ -107,12 +114,13 @@ function CommandList({
 }
 
 function CommandEmpty({
+  className,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Empty>) {
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
-      className="py-8 text-center font-mono text-sm"
+      className={cn("py-8 text-center text-sm", "font-sans", className)}
       {...props}
     />
   )

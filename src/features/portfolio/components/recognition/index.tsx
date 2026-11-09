@@ -5,7 +5,6 @@ import {
   PanelTitle,
   PanelTitleSup,
 } from "@/features/portfolio/components/panel"
-import { PanelTitleCopy } from "@/features/portfolio/components/panel-title-copy"
 import { RECOGNITION } from "@/features/portfolio/data/recognition"
 
 import { RecognitionItem } from "./recognition-item"
@@ -17,9 +16,8 @@ export function Recognition() {
     <Panel id={ID}>
       <PanelHeader>
         <PanelTitle>
-          <a href={`#${ID}`}>Recognition</a>
+          <a href={`#${ID}`}>التقدير المهني</a>
           <PanelTitleSup>({RECOGNITION.length})</PanelTitleSup>
-          <PanelTitleCopy id={ID} />
         </PanelTitle>
       </PanelHeader>
 

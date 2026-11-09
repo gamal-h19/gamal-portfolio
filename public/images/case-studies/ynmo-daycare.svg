@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+  <!-- Blueprint Background -->
+  <rect width="800" height="450" fill="#090a0c" />
+  
+  <defs>
+    <pattern id="grid-pattern-daycare" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1" />
+    </pattern>
+    <radialGradient id="glow-daycare" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="card-grad-daycare" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#16181d" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#111216" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Grid & Glow -->
+  <rect width="800" height="450" fill="url(#grid-pattern-daycare)" />
+  <rect width="800" height="450" fill="url(#glow-daycare)" />
+
+  <!-- Outer Technical Blueprint Border -->
+  <rect x="24" y="24" width="752" height="402" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+  
+  <!-- Corner Precision Crosses -->
+  <g stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.8">
+    <path d="M 20 24 H 28 M 24 20 V 28" />
+    <path d="M 772 24 H 780 M 776 20 V 28" />
+    <path d="M 20 426 H 28 M 24 422 V 430" />
+    <path d="M 772 426 H 780 M 776 422 V 430" />
+  </g>
+
+  <!-- Header Technical Bar -->
+  <g font-family="monospace" font-size="11" letter-spacing="1">
+    <line x1="24" y1="64" x2="776" y2="64" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+  </g>
+
+  <!-- Left: Multi-role Architecture -->
+  <g transform="translate(48, 86)">
+    <!-- Role Switcher Component Wireframe -->
+    <rect width="210" height="310" rx="4" fill="url(#card-grad-daycare)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+    <line x1="16" y1="38" x2="194" y2="38" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+
+    <!-- Role 1: Manager -->
+    <g transform="translate(16, 52)">
+      <rect width="178" height="44" rx="3" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+      <circle cx="20" cy="22" r="6" fill="#f59e0b" fill-opacity="0.8" />
+    </g>
+
+    <!-- Role 2: Educator -->
+    <g transform="translate(16, 108)">
+      <rect width="178" height="44" rx="3" fill="#1f222a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+      <circle cx="20" cy="22" r="6" fill="#71717a" />
+    </g>
+
+    <!-- Role 3: Parent -->
+    <g transform="translate(16, 164)">
+      <rect width="178" height="44" rx="3" fill="#1f222a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+      <circle cx="20" cy="22" r="6" fill="#71717a" />
+    </g>
+
+    <!-- Role 4: Supervisor -->
+    <g transform="translate(16, 220)">
+      <rect width="178" height="44" rx="3" fill="#1f222a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+      <circle cx="20" cy="22" r="6" fill="#71717a" />
+    </g>
+  </g>
+
+  <!-- Center/Right: Daycare Daily Activity Matrix & RTL Dashboard Frame -->
+  <g transform="translate(280, 86)">
+    <rect width="472" height="310" rx="4" fill="url(#card-grad-daycare)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+    
+    <!-- Top Dashboard Header with RTL indicator -->
+    <g transform="translate(20, 20)">
+      <rect x="330" y="-3" width="102" height="20" rx="3" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    </g>
+    <line x1="20" y1="46" x2="452" y2="46" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+
+    <!-- Attendance Metric Row -->
+    <g transform="translate(20, 60)">
+      <g>
+        <rect width="136" height="48" rx="3" fill="#171920" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+        <circle cx="116" cy="24" r="4" fill="#10b981" />
+      </g>
+      <g transform="translate(148, 0)">
+        <rect width="136" height="48" rx="3" fill="#171920" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+      </g>
+      <g transform="translate(296, 0)">
+        <rect width="136" height="48" rx="3" fill="#171920" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+      </g>
+    </g>
+
+    <!-- Activity Workflow Items -->
+    <g transform="translate(20, 126)">
+      <!-- Item 1 -->
+      <g>
+        <rect width="432" height="42" rx="3" fill="#161820" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <circle cx="20" cy="21" r="5" fill="#f59e0b" />
+        <rect x="360" y="12" width="60" height="18" rx="2" fill="#10b981" fill-opacity="0.1" />
+      </g>
+
+      <!-- Item 2 -->
+      <g transform="translate(0, 48)">
+        <rect width="432" height="42" rx="3" fill="#161820" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <circle cx="20" cy="21" r="5" fill="#f59e0b" />
+        <rect x="360" y="12" width="60" height="18" rx="2" fill="#f59e0b" fill-opacity="0.1" />
+      </g>
+
+      <!-- Item 3 -->
+      <g transform="translate(0, 96)">
+        <rect width="432" height="42" rx="3" fill="#161820" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <circle cx="20" cy="21" r="5" fill="#38bdf8" />
+        <rect x="360" y="12" width="60" height="18" rx="2" fill="#38bdf8" fill-opacity="0.1" />
+      </g>
+    </g>
+
+    <!-- Bottom Technical Footnote -->
+    <g transform="translate(20, 290)">
+    </g>
+  </g>
+</svg>

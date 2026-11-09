@@ -1,6 +1,4 @@
-import Link from "next/link"
 import { addQueryParams } from "@/utils/url"
-import { ArrowRightIcon } from "lucide-react"
 
 import { UTM_PARAMS } from "@/config/site"
 import { SponsorItem } from "@/features/sponsor/components/sponsor-item"
@@ -17,15 +15,9 @@ export function DocSponsorsRail() {
     >
       <h2
         id="doc-sponsors-rail-heading"
-        className="border-b border-line text-xs/none font-medium tracking-wide text-muted-foreground uppercase"
+        className="border-b border-line px-2.5 py-2 text-xs/none font-medium tracking-wide text-muted-foreground uppercase"
       >
-        <Link
-          className="flex h-8 items-center justify-between pr-2 pl-2.5 transition-[background-color,color] ease-out hover:bg-accent-muted hover:text-foreground"
-          href="/sponsors"
-        >
-          Sponsors
-          <ArrowRightIcon className="size-3.5" />
-        </Link>
+        Sponsors
       </h2>
 
       <ul className="flex flex-wrap gap-px bg-line">

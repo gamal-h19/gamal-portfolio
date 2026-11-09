@@ -94,6 +94,7 @@ type ContributionGraphContextType = {
   maxLevel: number
   totalCount: number
   weekStart: WeekDay
+  rtl: boolean
   year: number
   width: number
   height: number
@@ -242,6 +243,7 @@ export type ContributionGraphProps = HTMLAttributes<HTMLDivElement> & {
   style?: CSSProperties
   totalCount?: number
   weekStart?: WeekDay
+  rtl?: boolean
   children: ReactNode
   className?: string
 }
@@ -257,6 +259,7 @@ export const ContributionGraph = ({
   style = {},
   totalCount: totalCountProp = undefined,
   weekStart = 0,
+  rtl = false,
   className,
   ...props
 }: ContributionGraphProps) => {
@@ -296,6 +299,7 @@ export const ContributionGraph = ({
         maxLevel,
         totalCount,
         weekStart,
+        rtl,
         year,
         width,
         height,
@@ -323,8 +327,15 @@ export const ContributionGraphBlock = ({
   className,
   ...props
 }: ContributionGraphBlockProps) => {
-  const { blockSize, blockMargin, blockRadius, labelHeight, maxLevel } =
-    useContributionGraph()
+  const {
+    blockSize,
+    blockMargin,
+    blockRadius,
+    labelHeight,
+    maxLevel,
+    rtl,
+    width,
+  } = useContributionGraph()
 
   if (activity.level < 0 || activity.level > maxLevel) {
     throw new RangeError(
@@ -342,7 +353,11 @@ export const ContributionGraphBlock = ({
       rx={blockRadius}
       ry={blockRadius}
       width={blockSize}
-      x={(blockSize + blockMargin) * weekIndex}
+      x={
+        rtl
+          ? width - blockSize - (blockSize + blockMargin) * weekIndex
+          : (blockSize + blockMargin) * weekIndex
+      }
       y={labelHeight + (blockSize + blockMargin) * dayIndex}
       {...props}
     />
@@ -369,7 +384,7 @@ export const ContributionGraphCalendar = ({
   children,
   ...props
 }: ContributionGraphCalendarProps) => {
-  const { weeks, width, height, blockSize, blockMargin, labels } =
+  const { weeks, width, height, blockSize, blockMargin, labels, rtl } =
     useContributionGraph()
 
   const monthLabels = useMemo(
@@ -387,6 +402,7 @@ export const ContributionGraphCalendar = ({
     >
       <svg
         className="block overflow-visible"
+        direction={rtl ? "rtl" : "ltr"}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
         width={width}
@@ -397,15 +413,23 @@ export const ContributionGraphCalendar = ({
             data-slot="month-labels"
             className="fill-current selection:fill-selection-foreground"
           >
-            {monthLabels.map(({ label, weekIndex }) => (
-              <text
-                dominantBaseline="hanging"
-                key={weekIndex}
-                x={(blockSize + blockMargin) * weekIndex}
-              >
-                {label}
-              </text>
-            ))}
+            {monthLabels.map(({ label, weekIndex }) => {
+              const x = rtl
+                ? width - (blockSize + blockMargin) * weekIndex
+                : (blockSize + blockMargin) * weekIndex
+
+              return (
+                <text
+                  direction={rtl ? "rtl" : "ltr"}
+                  dominantBaseline="hanging"
+                  key={weekIndex}
+                  x={x}
+                  textAnchor="start"
+                >
+                  {label}
+                </text>
+              )
+            })}
           </g>
         )}
         {weeks.map((week, weekIndex) =>
@@ -487,11 +511,11 @@ export const ContributionGraphLegend = ({
 
   return (
     <div
-      className={cn("ml-auto flex items-center", className)}
+      className={cn("ms-auto flex items-center", className)}
       style={{ gap: blockMargin }}
       {...props}
     >
-      <span className="mr-1 text-muted-foreground">
+      <span className="me-1 text-muted-foreground">
         {labels.legend?.less || "Less"}
       </span>
 
@@ -513,7 +537,7 @@ export const ContributionGraphLegend = ({
         )
       )}
 
-      <span className="ml-1 text-muted-foreground">
+      <span className="ms-1 text-muted-foreground">
         {labels.legend?.more || "More"}
       </span>
     </div>

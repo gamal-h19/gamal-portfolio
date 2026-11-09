@@ -4,7 +4,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
-import { format } from "date-fns"
 
 import { cn } from "@/lib/utils"
 
@@ -63,9 +62,12 @@ export function CraftItem({
       {/* On phones the links get their own row so they never wrap. */}
       <figcaption className="screen-line-top grid grid-cols-[--spacing(31)_1fr]">
         <CaptionCell>
-          Fig.{figureNumber.toString().padStart(2, "0")}
+          {`شكل ${figureNumber.toString().padStart(2, "0")}`}
         </CaptionCell>
-        <p className="max-w-prose px-4 py-3 text-sm/5 text-pretty max-sm:row-span-2">
+        <p
+          className="max-w-prose px-4 py-3 text-sm/5 text-pretty max-sm:row-span-2"
+          dir="auto"
+        >
           {craft.description}
         </p>
 
@@ -73,10 +75,7 @@ export function CraftItem({
           className="border-t"
           render={<time dateTime={craft.createdAt} />}
         >
-          {format(
-            new Date(craft.createdAt),
-            isMonthOnly(craft.createdAt) ? "MMM yyyy" : "d MMM yyyy"
-          )}
+          {formatArabicDate(craft.createdAt)}
         </CaptionCell>
         <div className="col-span-2 flex border-t border-line max-sm:empty:hidden sm:col-span-1">
           {craft.registryHref && (
@@ -88,7 +87,7 @@ export function CraftItem({
                 />
               }
             >
-              Get the code
+              عرض الكود
             </CaptionLink>
           )}
 
@@ -103,7 +102,7 @@ export function CraftItem({
                 />
               }
             >
-              View on X
+              عرض المنشور على X
             </CaptionLink>
           )}
         </div>
@@ -113,6 +112,17 @@ export function CraftItem({
 }
 
 const isMonthOnly = (date: string) => /^\d{4}-\d{2}$/.test(date)
+
+function formatArabicDate(value: string) {
+  return new Intl.DateTimeFormat("ar-EG", {
+    ...(isMonthOnly(value)
+      ? { month: "short" as const }
+      : { day: "numeric" as const, month: "short" as const }),
+    year: "numeric",
+    calendar: "gregory",
+    timeZone: "UTC",
+  }).format(new Date(value))
+}
 
 function CaptionCell({
   className,

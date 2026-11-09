@@ -3,20 +3,16 @@ import { describe, expect, it } from "vitest"
 import { getBookmarkExternalHref } from "./bookmark-link"
 
 describe("getBookmarkExternalHref", () => {
-  it("appends utm_source", () => {
+  it("does not add attribution parameters when none are configured", () => {
     expect(getBookmarkExternalHref("https://example.com/page")).toBe(
-      "https://example.com/page?utm_source=chanhdai.com"
+      "https://example.com/page"
     )
   })
 
-  it("preserves params already on the url", () => {
+  it("preserves existing query parameters", () => {
     const href = getBookmarkExternalHref("https://example.com?atp=ncdai")
 
-    expect(href).toContain("atp=ncdai")
-    expect(href).toContain("utm_source=chanhdai.com")
-    expect(href.indexOf("atp=ncdai")).toBeLessThan(
-      href.indexOf("utm_source=chanhdai.com")
-    )
+    expect(href).toBe("https://example.com/?atp=ncdai")
   })
 
   it("returns invalid urls unchanged", () => {
@@ -25,7 +21,7 @@ describe("getBookmarkExternalHref", () => {
 
   it("normalizes bare origins with a trailing slash", () => {
     expect(getBookmarkExternalHref("https://animations.dev")).toBe(
-      "https://animations.dev/?utm_source=chanhdai.com"
+      "https://animations.dev/"
     )
   })
 })

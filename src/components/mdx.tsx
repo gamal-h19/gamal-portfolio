@@ -40,6 +40,16 @@ import { DocPullQuote } from "@/features/doc/components/doc-pull-quote"
 import { DocSponsors } from "@/features/doc/components/doc-sponsors"
 import { DocTestimonial } from "@/features/doc/components/doc-testimonial"
 
+import {
+  ArticleChecklist,
+  ArticleChecklistItem,
+  ArticleComparison,
+  ArticleComparisonItem,
+  ArticleEvidence,
+  ArticleEvidenceItem,
+  ArticleStat,
+  ArticleStats,
+} from "./article-structure"
 import { Callout } from "./callout"
 import { CodeTabs } from "./code-tabs"
 import { ComponentPreview } from "./component-preview"
@@ -68,6 +78,14 @@ const components: MDXRemoteProps["components"] = {
   CodeCollapsibleWrapper,
   CodeTabs,
   Callout,
+  ArticleStats,
+  ArticleStat,
+  ArticleComparison,
+  ArticleComparisonItem,
+  ArticleChecklist,
+  ArticleChecklistItem,
+  ArticleEvidence,
+  ArticleEvidenceItem,
   Steps: ({ className, ...props }: React.ComponentProps<"div">) => (
     <div
       className={cn(
@@ -88,8 +106,8 @@ const components: MDXRemoteProps["components"] = {
   TabsContent,
   TabsListInstallType: () => (
     <TabsList>
-      <TabsTrigger value="cli">Command</TabsTrigger>
-      <TabsTrigger value="manual">Manual</TabsTrigger>
+      <TabsTrigger value="cli">الأمر</TabsTrigger>
+      <TabsTrigger value="manual">يدويًا</TabsTrigger>
       <TabsIndicator />
     </TabsList>
   ),

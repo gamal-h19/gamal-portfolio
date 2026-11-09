@@ -62,6 +62,7 @@
   --font-serif: var(--font-serif);
   --font-handwritten: var(--font-handwritten);
   --font-heading: var(--font-sans);
+  --font-eight: var(--font-eight);
 
   --font-mono--font-feature-settings: "ss01", "zero";
 
@@ -129,7 +130,10 @@
   @apply relative;
   &:before {
     content: "";
-    @apply absolute top-0 left-[-100vw] -z-1 h-px w-[200vw] bg-line;
+    @apply absolute top-0 -z-1 h-px bg-line;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
   }
 }
 
@@ -143,13 +147,30 @@
   @apply relative;
   &:after {
     content: "";
-    @apply absolute bottom-0 left-[-100vw] -z-1 h-px w-[200vw] bg-line;
+    @apply absolute bottom-0 -z-1 h-px bg-line;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
   }
 }
 
 @utility screen-line-bottom-* {
   &:after {
     background-color: --value(--color-*, [color]);
+  }
+}
+
+@utility screen-line-grid-row {
+  @media (width >= 40rem) {
+    &:nth-child(2n + 1):dir(rtl)::before,
+    &:nth-child(2n + 1):dir(rtl)::after {
+      left: -0.5rem;
+    }
+
+    &:nth-child(2n + 1):dir(ltr)::before,
+    &:nth-child(2n + 1):dir(ltr)::after {
+      left: calc(100% + 0.5rem);
+    }
   }
 }
 
@@ -187,11 +208,35 @@
   @apply bg-[radial-gradient(var(--pattern-foreground)_1px,transparent_0)] bg-size-[8px_8px];
 }
 
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-1 * var(--marquee-distance, 0px)), 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
+
 @utility stripe-divider {
   @apply relative h-8;
   &:before {
     content: "";
-    @apply absolute left-[-100vw] -z-1 h-full w-[200vw] diagonal-stripes;
+    @apply absolute -z-1 h-full diagonal-stripes;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
   }
 }
 
@@ -541,6 +586,25 @@
     @apply bg-background text-foreground antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
+    font-weight: 400;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 500;
+  }
+
+  p,
+  li,
+  span,
+  a,
+  small,
+  strong {
+    font-weight: inherit;
   }
 
   /* Custom scrollbar styling. Thanks @shadcn-ui */
@@ -564,6 +628,28 @@
   }
 }
 
+/* Keep Arabic text in Font Eight while preserving code and handwritten type. */
+html {
+  --font-sans: var(--font-geist-sans);
+  --font-heading: var(--font-geist-sans);
+  --font-serif: var(--font-geist-serif);
+}
+
+html[lang="ar"] {
+  --font-sans: var(--font-eight);
+  --font-heading: var(--font-eight);
+  --font-serif: var(--font-eight);
+}
+
+html[lang="ar"],
+html[lang="ar"] body {
+  font-family: var(--font-eight), var(--font-geist-sans), sans-serif;
+  font-feature-settings: "ss01", "zero";
+}
+
+html[lang="ar"] :where(h1, h2, h3, h4, h5, h6) {
+  font-weight: 500;
+}
 @layer components {
   [data-rehype-pretty-code-figure] {
     @apply relative my-[1.25em] rounded-xl bg-surface p-1 text-surface-foreground inset-ring-1 inset-ring-border/64;

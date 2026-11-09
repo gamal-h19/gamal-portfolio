@@ -14,8 +14,8 @@ export function DocDependencies({ name }: { name: string }) {
   }
 
   return (
-    <div className="not-prose screen-dashed-line-top screen-dashed-line-bottom -mx-(--page-padding) my-8 before:opacity-80 after:opacity-80">
-      <dl className="screen-line-top screen-line-bottom grid grid-cols-1 gap-px overflow-x-clip bg-line py-px sm:auto-cols-fr sm:grid-flow-col">
+    <div className="not-prose screen-dashed-line-top screen-dashed-line-bottom -mx-(--page-padding) my-8">
+      <dl className="grid grid-cols-1 gap-px overflow-x-clip bg-line py-px sm:auto-cols-fr sm:grid-flow-col">
         <DependencyField label="Dependencies" dependencies={packages} />
         <DependencyField label="Registry" dependencies={registryItems} />
       </dl>

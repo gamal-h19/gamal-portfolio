@@ -47,7 +47,7 @@ export function Sponsors() {
               <SponsorItem
                 className="min-h-22.5 [&_svg]:w-full [&_svg]:max-w-75 [&_svg]:shrink-0"
                 href={addQueryParams(item.url, UTM_PARAMS)}
-                aria-label={`${item.name} logo`}
+                aria-label={`شعار ${item.name}`}
               >
                 <item.logo aria-hidden />
               </SponsorItem>

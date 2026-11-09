@@ -6,6 +6,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import type { NavItem } from "@/types/nav"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,8 +16,18 @@ import {
 } from "@/components/ui/popover"
 import { haptic } from "@/registry/lib/haptic"
 
+const NAV_KEY_MAP: Record<string, string> = {
+  "/": "nav.home",
+  "/about": "nav.about",
+  "/case-studies": "nav.caseStudies",
+  "/blog": "nav.blog",
+  "/newsletter": "nav.newsletter",
+  "/contact": "nav.contact",
+}
+
 export function NavMobile({ items }: { items: NavItem<Route>[] }) {
   const [open, setOpen] = useState(false)
+  const { t } = useLanguage()
 
   const isDesktop = useMediaQuery("(min-width: 40rem)") // sm breakpoint
 
@@ -31,23 +42,34 @@ export function NavMobile({ items }: { items: NavItem<Route>[] }) {
     return <NavMobileTrigger />
   }
 
+  const arabicItems = items.map((item) => {
+    const key = NAV_KEY_MAP[item.href]
+    return {
+      ...item,
+      ...(key ? { title: t(key) } : {}),
+    }
+  })
+
   return (
     <Popover open={open} onOpenChange={handleOpenChange} modal>
       <PopoverTrigger render={<NavMobileTrigger />} />
 
       <PopoverContent
-        className="w-48 rounded-xl p-1"
+        className="w-48 rounded-xl p-1 font-sans"
         side="top"
         align="center"
         sideOffset={8}
         finalFocus={false}
       >
         <div className="flex flex-col">
-          {items.map((link) => {
+          {arabicItems.map((link) => {
+            const isHome = link.href === "/"
             const isActive =
               pathname === link.href ||
-              (link.href === "/" // Home page
-                ? ["/", "/index"].includes(pathname || "")
+              (isHome
+                ? [`${link.href}`, `${link.href}/index`].includes(
+                    pathname || ""
+                  )
                 : pathname?.startsWith(link.href))
 
             return (
@@ -73,12 +95,16 @@ export default NavMobile
 function NavMobileTrigger(
   props: Omit<React.ComponentProps<typeof Button>, "children">
 ) {
+  const { t } = useLanguage()
+  const expanded = props["aria-expanded"]
+  const label = expanded ? t("nav.closeMenu") : t("nav.openMenu")
+
   return (
     <Button
       className="group relative flex touch-manipulation flex-col gap-1 border-none before:absolute before:-inset-x-2 before:-top-8 before:-bottom-1 active:scale-none aria-expanded:bg-accent"
       variant="ghost"
       size="icon-sm"
-      aria-label="Toggle Menu"
+      aria-label={label}
       {...props}
     >
       <span className="flex h-0.5 w-4 transform rounded-[1px] bg-foreground transition-transform group-data-popup-open:translate-y-0.75 group-data-popup-open:rotate-45" />

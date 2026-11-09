@@ -1,8 +1,8 @@
-import { cache } from "react"
+import { cache, Suspense } from "react"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { X_HANDLE } from "@/config/site"
+import { SITE_INFO, X_HANDLE } from "@/config/site"
 import { getRegistryItem } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 import { Index } from "@/registry/__index__"
@@ -30,13 +30,17 @@ export async function generateStaticParams() {
   return params
 }
 
+type PreviewPageProps = {
+  params: Promise<{ name: string }>
+}
+
 const getCachedRegistryItem = cache(async (name: string) => {
   return await getRegistryItem(name)
 })
 
 export async function generateMetadata({
   params,
-}: PageProps<"/preview/[name]">): Promise<Metadata> {
+}: PreviewPageProps): Promise<Metadata> {
   const { name } = await params
 
   const item = await getCachedRegistryItem(name)
@@ -60,18 +64,22 @@ export async function generateMetadata({
     openGraph: {
       url: blockUrl,
       type: "website",
-      images: {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: title,
-      },
+      ...(SITE_INFO.url
+        ? {
+            images: {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       site: X_HANDLE,
       creator: X_HANDLE,
-      images: [ogImage],
+      ...(SITE_INFO.url ? { images: [ogImage] } : {}),
     },
     robots: {
       index: false,
@@ -80,9 +88,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function PreviewPage({
-  params,
-}: PageProps<"/preview/[name]">) {
+export default async function PreviewPage({ params }: PreviewPageProps) {
   const name = (await params).name
 
   const [item, themes] = await Promise.all([
@@ -97,9 +103,11 @@ export default async function PreviewPage({
 
   return (
     <div className={cn("style-preview", item?.meta?.previewClassName)}>
-      <PreviewProvider themes={themes}>
-        <Component />
-      </PreviewProvider>
+      <Suspense fallback={<div className="min-h-svh" />}>
+        <PreviewProvider themes={themes}>
+          <Component />
+        </PreviewProvider>
+      </Suspense>
     </div>
   )
 }

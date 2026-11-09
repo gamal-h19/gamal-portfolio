@@ -19,7 +19,7 @@ const content = `# Bookmarks
 
 > Hand-picked articles, courses, books, references, and tools worth your time.
 
-${BOOKMARKS.length} bookmarks in total, grouped by category and newest first. They are also listed on ${SITE_INFO.url}/bookmarks, filterable by category.
+${BOOKMARKS.length} bookmarks in total, grouped by category and newest first. They are also listed on ${SITE_INFO.url}/blog#resources, filterable by category.
 
 ${categorySections
   .map(

@@ -3,21 +3,16 @@ import type { Metadata } from "next"
 import type { Blog, WithContext } from "schema-dts"
 
 import { JSON_LD_ID } from "@/config/json-ld"
-import { X_HANDLE } from "@/config/site"
+import { SITE_INFO, X_HANDLE } from "@/config/site"
 import { jsonLdBreadcrumbList, JsonLdScript } from "@/lib/json-ld"
 import { absoluteUrl } from "@/lib/utils"
-import {
-  PageHeading,
-  PageHeadingTagline,
-  PageHeadingTitle,
-} from "@/components/page-heading"
-import { PostList } from "@/features/blog/components/post-list"
-import { PostListWithSearch } from "@/features/blog/components/post-list-with-search"
-import { PostSearchInput } from "@/features/blog/components/post-search-input"
 import { getBlogPosts } from "@/features/doc/data/documents"
 
-const title = "Blog"
-const description = "Stories, milestones, and things I learn along the way."
+import { BlogPageContent } from "./blog-page-content"
+
+const title = "المدونة | جمال حسن"
+const description =
+  "مقالات من تجربة عملية في تصميم تجربة المستخدم وأبحاث المستخدمين واستراتيجية المنتجات الرقمية."
 
 const ogImage = `/og/simple?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
 
@@ -27,21 +22,36 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/blog",
   },
+  keywords: [
+    "المدونة",
+    "جمال حسن",
+    "UX blog",
+    "product design",
+    "user research",
+    "digital products",
+    "case studies",
+  ],
   openGraph: {
+    title,
+    description,
     url: "/blog",
     type: "website",
-    images: {
-      url: ogImage,
-      width: 1200,
-      height: 630,
-      alt: title,
-    },
+    ...(SITE_INFO.url
+      ? {
+          images: {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        }
+      : {}),
   },
   twitter: {
     card: "summary_large_image",
     site: X_HANDLE,
     creator: X_HANDLE,
-    images: [ogImage],
+    ...(SITE_INFO.url ? { images: [ogImage] } : {}),
   },
 }
 
@@ -76,42 +86,21 @@ export default function Page() {
       <JsonLdScript
         data={jsonLdBreadcrumbList([
           {
-            name: "Home",
+            name: "الرئيسية",
             href: "/",
           },
           {
-            name: "Blog",
+            name: "المدونة",
             href: "/blog",
           },
         ])}
       />
 
-      <div className="min-h-svh">
-        <PageHeading>
-          <PageHeadingTagline>Blog</PageHeadingTagline>
-          <PageHeadingTitle>
-            Stories, milestones, and things I learn along the way.
-          </PageHeadingTitle>
-        </PageHeading>
-
-        <div className="h-4" />
-
-        <div className="screen-line-top screen-line-bottom p-2">
-          <Suspense
-            fallback={
-              <div className="flex h-9 w-full rounded-lg border border-input dark:bg-input/30" />
-            }
-          >
-            <PostSearchInput />
-          </Suspense>
-        </div>
-
-        <Suspense fallback={<PostList posts={allPosts} />}>
-          <PostListWithSearch posts={allPosts} />
-        </Suspense>
-
-        <div className="h-4" />
-      </div>
+      <Suspense fallback={<div className="min-h-svh" />}>
+        <BlogPageContent
+          posts={allPosts.map(({ slug, metadata }) => ({ slug, metadata }))}
+        />
+      </Suspense>
     </>
   )
 }

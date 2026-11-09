@@ -29,7 +29,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
           <KeyboardShortcuts />
         </ProgressProvider>
-
         <Toaster />
       </ThemeProvider>
     </JotaiProvider>

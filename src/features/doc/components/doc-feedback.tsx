@@ -113,9 +113,7 @@ export function DocFeedback({ category, slug }: DocFeedbackProps) {
 
   return (
     <>
-      <div className="screen-dashed-line-top before:opacity-80">
-        <div className="screen-line-top h-px overflow-x-clip" />
-      </div>
+      <div className="screen-dashed-line-top" />
 
       <section className="flex flex-col gap-2 p-4" aria-labelledby={headingId}>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

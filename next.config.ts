@@ -2,9 +2,8 @@ import type { NextConfig } from "next"
 
 /**
  * Component slugs that used to also render under /blog/<slug> (a shared MDX
- * pool) and were indexed there. After splitting content into category folders
- * they live only at /components/<slug>, so the legacy /blog URLs are permanently
- * redirected below to avoid 404s.
+ * pool) and were indexed there. The rendered component pages have been removed,
+ * so these legacy /blog URLs now redirect to the remaining Markdown docs.
  *
  * This is a fixed snapshot of the previously-indexed slugs — components added
  * after the split were never on /blog and don't need an entry.
@@ -45,7 +44,7 @@ const LEGACY_BLOG_COMPONENT_SLUGS = [
 const legacyBlogComponentRedirects = LEGACY_BLOG_COMPONENT_SLUGS.map(
   (slug) => ({
     source: `/blog/${slug}`,
-    destination: `/components/${slug}`,
+    destination: `/components/${slug}.md`,
     permanent: true,
   })
 )
@@ -104,22 +103,22 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:section(blog|components)/writing-effect-inspired-by-apple",
-        destination: "/:section/apple-hello-effect",
+        destination: "/:section/apple-hello-effect.md",
         permanent: true,
       },
       {
         source: "/:section(blog|components)/work-experience",
-        destination: "/:section/work-experience-component",
+        destination: "/:section/work-experience-component.md",
         permanent: true,
       },
       {
         source: "/:section(blog|components)/theme-switcher-component",
-        destination: "/:section/theme-switcher",
+        destination: "/:section/theme-switcher.md",
         permanent: true,
       },
       {
         source: "/components/testimonial-2",
-        destination: "/components/pull-quote",
+        destination: "/components/pull-quote.md",
         permanent: true,
       },
       {
@@ -129,7 +128,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/components/text-flip",
-        destination: "/components/text-swap",
+        destination: "/components/text-swap.md",
         permanent: true,
       },
       {
@@ -160,27 +159,27 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/blocks/content",
-        destination: "/blocks/marketing",
+        destination: "/blocks.md",
         permanent: true,
       },
       {
         source: "/blocks/content/blog-01",
-        destination: "/blocks/marketing/blog-01",
+        destination: "/r/blog-01.json",
         permanent: true,
       },
       {
         source: "/blocks/content/blog-02",
-        destination: "/blocks/marketing/blog-02",
+        destination: "/r/blog-02.json",
         permanent: true,
       },
       {
         source: "/blocks/content/experience-01",
-        destination: "/blocks/marketing/experience-01",
+        destination: "/r/experience-01.json",
         permanent: true,
       },
       {
         source: "/blocks/content/team-01",
-        destination: "/blocks/marketing/team-01",
+        destination: "/r/team-01.json",
         permanent: true,
       },
       {

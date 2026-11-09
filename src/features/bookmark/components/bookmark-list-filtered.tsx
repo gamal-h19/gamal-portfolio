@@ -12,7 +12,6 @@ export function BookmarkListFiltered({
   entries: BookmarkListEntry[]
 }) {
   const [filters, setFilters] = useBookmarkFilters()
-
   const filteredEntries = entries.filter(
     (entry) => !filters.category || entry.category === filters.category
   )
@@ -20,10 +19,12 @@ export function BookmarkListFiltered({
   if (filteredEntries.length === 0) {
     return (
       <div className="flex flex-col items-start gap-2 border-b border-line p-4">
-        <p className="font-mono text-sm">No bookmarks match this filter.</p>
+        <p className="font-sans text-sm">
+          لا توجد عناصر محفوظة تطابق هذه الفئة.
+        </p>
 
         <Button variant="secondary" size="sm" onClick={() => setFilters(null)}>
-          Clear filter
+          مسح التصفية
         </Button>
       </div>
     )

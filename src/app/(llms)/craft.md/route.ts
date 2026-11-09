@@ -17,7 +17,7 @@ const content = `# Craft
 
 > Building interfaces and interactions.
 
-${CRAFTS.length} entries, newest first. They are also shown on ${SITE_INFO.url}/craft with their videos and images.
+${CRAFTS.length} entries, newest first.
 
 ${CRAFTS.map((item) =>
   [

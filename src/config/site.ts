@@ -1,20 +1,22 @@
 import type { Route } from "next"
 
 import type { NavItem } from "@/types/nav"
+import { SITE_URL } from "@/lib/site-url"
 import { SOCIAL } from "@/features/portfolio/data/social-links"
 import { USER } from "@/features/portfolio/data/user"
 
 export const SITE_INFO = {
   name: USER.displayName,
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://chanhdai.com",
-  ogImage: USER.ogImage,
-  description: USER.bio,
+  url: SITE_URL,
+  ogImage: USER.ogImage || "/favicon.svg",
+  description:
+    "أحوّل أبحاث المستخدمين إلى قرارات وتصاميم تساعد على بناء منتجات رقمية واضحة وأسهل استخدامًا، في مجالات التعليم والرعاية والخدمات القانونية.",
   keywords: USER.keywords,
 }
 
 export const LICENSE = {
   name: "MIT License",
-  url: "https://github.com/ncdai/chanhdai.com/blob/main/LICENSE",
+  url: "/LICENSE",
 }
 
 export const META_THEME_COLORS = {
@@ -22,44 +24,44 @@ export const META_THEME_COLORS = {
   dark: "#09090b",
 }
 
-export const MAIN_NAV: NavItem<Route>[] = [
+export const SITE_ROUTES: NavItem<Route>[] = [
   {
-    title: "Components",
-    href: "/components",
+    title: "Home",
+    href: "/" as Route,
   },
   {
-    title: "Blocks",
-    href: "/blocks",
+    title: "About",
+    href: "/about" as Route,
   },
   {
-    title: "Craft",
-    href: "/craft",
+    title: "Case Studies",
+    href: "/case-studies" as Route,
   },
   {
     title: "Blog",
-    href: "/blog",
+    href: "/blog" as Route,
   },
   {
-    title: "Sponsors",
-    href: "/sponsors",
+    title: "Newsletter",
+    href: "/newsletter" as Route,
+  },
+  {
+    title: "Contact",
+    href: "/contact" as Route,
   },
 ]
 
-export const MOBILE_NAV: NavItem<Route>[] = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  ...MAIN_NAV,
-]
+export const MAIN_NAV: NavItem<Route>[] = SITE_ROUTES.filter(
+  (item) => item.href !== "/"
+)
+
+export const MOBILE_NAV: NavItem<Route>[] = SITE_ROUTES
 
 export const X_HANDLE = SOCIAL.x.handle
 export const GITHUB_USERNAME = SOCIAL.github.handle
-export const SOURCE_CODE_GITHUB_REPO = "ncdai/chanhdai.com"
-export const SOURCE_CODE_GITHUB_URL = "https://github.com/ncdai/chanhdai.com"
+export const SOURCE_CODE_GITHUB_REPO = ""
+export const SOURCE_CODE_GITHUB_URL = ""
 
-export const SPONSORSHIP_URL = "https://github.com/sponsors/ncdai"
+export const SPONSORSHIP_URL = ""
 
-export const UTM_PARAMS = {
-  utm_source: "chanhdai.com",
-}
+export const UTM_PARAMS: Record<string, string> = {}

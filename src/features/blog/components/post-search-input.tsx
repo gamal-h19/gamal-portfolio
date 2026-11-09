@@ -5,6 +5,7 @@ import { XIcon } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 
 import { trackEvent } from "@/lib/events"
+import { useLanguage } from "@/lib/i18n/language-context"
 import {
   InputGroup,
   InputGroupAddon,
@@ -17,6 +18,7 @@ import { useSearchQuery } from "../hooks/use-search-query"
 
 export function PostSearchInput() {
   const { query, setQuery } = useSearchQuery()
+  const { t } = useLanguage()
 
   useHotkeys("esc", () => setQuery(null), { enableOnFormTags: true })
 
@@ -39,7 +41,8 @@ export function PostSearchInput() {
   return (
     <InputGroup className="rounded-lg shadow-none">
       <InputGroupInput
-        placeholder="Search blog…"
+        placeholder={t("blog.searchPlaceholder")}
+        dir="auto"
         value={query}
         onChange={(e) => {
           setQuery(e.target.value)
@@ -58,8 +61,8 @@ export function PostSearchInput() {
         <InputGroupButton
           className="rounded-sm border-none"
           size="icon-xs"
-          title="Clear"
-          aria-label="Clear"
+          title={t("blog.clearSearch")}
+          aria-label={t("blog.clearSearch")}
           onClick={() => setQuery(null)}
         >
           <XIcon />

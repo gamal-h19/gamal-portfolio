@@ -7,6 +7,7 @@ import type {
   PointerEvent,
   ReactNode,
 } from "react"
+import { DirectionProvider } from "@base-ui/react/direction-provider"
 import {
   animate,
   motion,
@@ -768,7 +769,15 @@ function PrintCopy({
   )
 }
 
-export function FoldableSlider({ className }: { className?: string }) {
+export function FoldableSlider({
+  className,
+  label = "Move slider to open and close.",
+  dir = "ltr",
+}: {
+  className?: string
+  label?: string
+  dir?: "ltr" | "rtl" | "auto"
+}) {
   const labelId = useId()
   const { progress } = useFoldable()
 
@@ -778,22 +787,25 @@ export function FoldableSlider({ className }: { className?: string }) {
   useMotionValueEvent(progress, "change", (p) => setValue(clamp01(p)))
 
   return (
-    <div className={cn("flex w-64 flex-col gap-3", className)}>
-      <p id={labelId} className="text-sm text-muted-foreground">
-        Move slider to open and close.
+    <div dir={dir} className={cn("flex w-64 flex-col gap-3", className)}>
+      <p id={labelId} className="text-center text-sm text-muted-foreground">
+        {label}
       </p>
-      <Slider
-        aria-labelledby={labelId}
-        min={0}
-        max={1}
-        step={0.001}
-        largeStep={0.1}
-        value={[value]}
-        onValueChange={(next) => {
-          progress.stop()
-          progress.set(typeof next === "number" ? next : next[0])
-        }}
-      />
+      <DirectionProvider direction={dir === "rtl" ? "rtl" : "ltr"}>
+        <Slider
+          aria-labelledby={labelId}
+          className="[&_[data-slot=slider-thumb]:has(input:focus-visible)]:ring-3"
+          min={0}
+          max={1}
+          step={0.001}
+          largeStep={0.1}
+          value={[value]}
+          onValueChange={(next) => {
+            progress.stop()
+            progress.set(typeof next === "number" ? next : next[0])
+          }}
+        />
+      </DirectionProvider>
     </div>
   )
 }

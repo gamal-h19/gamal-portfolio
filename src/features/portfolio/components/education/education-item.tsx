@@ -1,5 +1,6 @@
-import { GraduationCapIcon, InfinityIcon } from "lucide-react"
+import { GraduationCapIcon } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import {
   CollapsibleContent,
@@ -16,23 +17,24 @@ import { Markdown } from "@/components/markdown"
 import type { Education } from "@/features/portfolio/types/education"
 
 export function EducationItem({ item }: { item: Education }) {
+  const { t } = useLanguage()
   const { start, end } = item.period
-  const isOngoing = !end
 
   return (
-    <div className="group/education-item relative before:absolute before:left-3 before:h-full before:w-px before:bg-border">
+    <div className="group/education-item relative before:absolute before:inset-s-3 before:h-full before:w-px before:bg-border">
       <div
-        className="pointer-events-none absolute bottom-0 left-3 hidden size-4 bg-background group-last/education-item:flex"
+        className="pointer-events-none absolute inset-s-3 bottom-0 hidden size-4 bg-background group-last/education-item:flex"
         aria-hidden
       >
-        <span className="size-full -translate-y-2.25 rounded-bl-sm border-b border-l" />
+        <span className="size-full -translate-y-2.25 rounded-es-sm border-s border-b" />
       </div>
 
       <Collapsible defaultOpen={item.isExpanded} disabled={!item.description}>
         <CollapsibleTrigger
           className={cn(
-            "group block w-full text-left",
-            "relative before:absolute before:-top-1 before:-right-1 before:-bottom-1.5 before:left-7 before:-z-1 before:rounded-lg before:transition-[background-color] before:ease-out hover:before:bg-accent-muted",
+            "group block w-full",
+            "text-right",
+            "relative before:absolute before:inset-s-7 before:-inset-e-1 before:-top-1 before:-bottom-1.5 before:-z-1 before:rounded-lg before:transition-[background-color] before:ease-out hover:before:bg-accent-muted",
             "outline-none focus-visible:before:inset-ring-2 focus-visible:before:inset-ring-ring/50",
             "data-disabled:before:content-none"
           )}
@@ -49,20 +51,19 @@ export function EducationItem({ item }: { item: Education }) {
             </div>
           </div>
 
-          <dl className="flex flex-wrap items-center gap-x-2 pl-9 text-sm text-muted-foreground">
+          <dl
+            className="flex flex-wrap items-center gap-x-2 ps-9 text-sm text-muted-foreground"
+            dir="auto"
+          >
             <div>
-              <dt className="sr-only">Study period</dt>
-              <dd className="flex items-center gap-0.5 tabular-nums">
-                <span>{start}</span>
+              <dt className="sr-only">{t("education.studyPeriod")}</dt>
+              <dd className="flex items-center gap-0.5 tabular-nums" dir="ltr">
+                <span>{formatYear(start)}</span>
                 <span className="font-mono">—</span>
-                {isOngoing ? (
-                  <InfinityIcon
-                    className="size-4.5 translate-y-[0.5px]"
-                    aria-label="Present"
-                    strokeWidth={1.5}
-                  />
+                {!end ? (
+                  <span className="font-sans">{t("experience.present")}</span>
                 ) : (
-                  <span>{end}</span>
+                  <span>{formatYear(end)}</span>
                 )}
               </dd>
             </div>
@@ -76,7 +77,7 @@ export function EducationItem({ item }: { item: Education }) {
                 />
 
                 <div>
-                  <dt className="sr-only">Degree</dt>
+                  <dt className="sr-only">{t("education.degree")}</dt>
                   <dd>{item.degree}</dd>
                 </div>
               </>
@@ -91,7 +92,7 @@ export function EducationItem({ item }: { item: Education }) {
                 />
 
                 <div>
-                  <dt className="sr-only">Field of study</dt>
+                  <dt className="sr-only">{t("education.fieldOfStudy")}</dt>
                   <dd>{item.fieldOfStudy}</dd>
                 </div>
               </>
@@ -101,22 +102,28 @@ export function EducationItem({ item }: { item: Education }) {
 
         <CollapsibleContent className="overflow-hidden">
           {item.description && (
-            <div className="typeset typeset-description pt-3 pb-1 pl-9">
+            <div className="typeset typeset-description ps-9 pt-3 pb-1">
               <Markdown>{item.description}</Markdown>
             </div>
           )}
         </CollapsibleContent>
 
         {Array.isArray(item.skills) && item.skills.length > 0 && (
-          <ul className="flex flex-wrap gap-1.5 pt-3 pl-9">
+          <ul className="flex flex-wrap gap-1.5 ps-9 pt-3">
             {item.skills.map((skill, index) => (
               <li key={index} className="flex">
-                <Tag>{skill}</Tag>
+                <Tag className="font-sans">{skill}</Tag>
               </li>
             ))}
           </ul>
         )}
       </Collapsible>
     </div>
+  )
+}
+
+function formatYear(year: string) {
+  return new Intl.NumberFormat("ar-EG", { useGrouping: false }).format(
+    Number(year)
   )
 }

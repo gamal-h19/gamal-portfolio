@@ -37,7 +37,8 @@ export function PronounceMyName({
         className
       )}
       onClick={handlePlayClick}
-      aria-label="Pronounce my name"
+      aria-label="نطق اسمي"
+      title="نطق اسمي"
     >
       <span className="absolute size-12 pointer-fine:hidden" aria-hidden />
       <VolumeIcon ref={volumeIconRef} className="size-4.5" aria-hidden />

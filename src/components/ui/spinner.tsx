@@ -1,12 +1,17 @@
+"use client"
+
 import { Loader2Icon } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+  const { t } = useLanguage()
+
   return (
     <Loader2Icon
       role="status"
-      aria-label="Loading"
+      aria-label={t("common.loading")}
       className={cn("size-4 animate-spin", className)}
       {...props}
     />

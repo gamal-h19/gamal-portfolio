@@ -32,6 +32,10 @@ const getStargazerCount = unstable_cache(
 )
 
 export async function NavItemGitHub() {
+  if (!SOURCE_CODE_GITHUB_REPO) {
+    return null
+  }
+
   const stargazersCount = await getStargazerCount()
 
   return (

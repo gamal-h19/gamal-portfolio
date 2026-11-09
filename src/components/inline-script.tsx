@@ -1,13 +1,15 @@
 "use client"
 
+import { useId } from "react"
+import Script from "next/script"
+
 export function InlineScript({ html }: { html: string }) {
+  const id = useId()
+
   return (
-    <script
-      // React also warns in development when rendering produces <script> tags.
-      // To avoid this, wrap the script in a helper that sets type="text/javascript"
-      // on the server and type="text/plain" on the client.
-      type={typeof window === "undefined" ? "text/javascript" : "text/plain"}
-      suppressHydrationWarning
+    <Script
+      id={`inline-script-${id}`}
+      strategy="beforeInteractive"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )

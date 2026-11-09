@@ -6,16 +6,19 @@ import { InlineScript } from "@/components/inline-script"
 
 import { IntroItem, IntroItemContent, IntroItemIcon } from "./intro-item"
 
-export function CurrentLocalTimeItem({ timeZone }: CurrentLocalTimeItemProps) {
+export function CurrentLocalTimeItem({
+  timeZone,
+  locationName,
+}: CurrentLocalTimeItemProps) {
   const uid = useId()
   const ids = {
     time: `lt-time-${uid}`,
-    diff: `lt-diff-${uid}`,
+    period: `lt-period-${uid}`,
     hands: `lt-hands-${uid}`,
   }
 
   const [timeString, setTimeString] = useState<string>("")
-  const [diffText, setDiffText] = useState<string>("")
+  const [periodString, setPeriodString] = useState<string>("")
   // Deterministic 12:00 for SSR; the inline script corrects it before paint.
   const [handsPath, setHandsPath] = useState<string>(() =>
     clockHandsPath(12, 0)
@@ -23,10 +26,10 @@ export function CurrentLocalTimeItem({ timeZone }: CurrentLocalTimeItemProps) {
 
   useEffect(() => {
     const updateTime = () => {
-      const { time, hour, minute, diff } = computeClock(timeZone)
+      const { time, period, hour, minute } = computeClock(timeZone)
       setTimeString(time)
+      setPeriodString(period)
       setHandsPath(clockHandsPath(hour, minute))
-      setDiffText(diff)
     }
 
     updateTime()
@@ -54,16 +57,19 @@ export function CurrentLocalTimeItem({ timeZone }: CurrentLocalTimeItemProps) {
       </IntroItemIcon>
 
       <IntroItemContent>
-        <span id={ids.time} suppressHydrationWarning>
+        <span id={ids.time} dir="ltr" suppressHydrationWarning>
           {timeString}
-        </span>
+        </span>{" "}
         <span
-          id={ids.diff}
-          className="text-muted-foreground"
-          aria-hidden
+          id={ids.period}
+          className="font-sans"
+          dir="auto"
           suppressHydrationWarning
         >
-          {diffText}
+          {periodString}
+        </span>{" "}
+        <span className="font-sans text-muted-foreground">
+          · توقيت {locationName}
         </span>
       </IntroItemContent>
 
@@ -94,36 +100,36 @@ function clockHandsPath(hour: number, minute: number) {
 function computeClock(timeZone: string) {
   const now = new Date()
 
-  const time = new Intl.DateTimeFormat("en-US", {
+  const dateTimeFormat = new Intl.DateTimeFormat("ar-EG", {
     timeZone,
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  }).format(now)
-  const hour = parseInt(time, 10)
-  const minute = parseInt(time.slice(3), 10)
+    numberingSystem: "latn",
+  })
+  const parts = dateTimeFormat.formatToParts(now)
+  const hour = Number(parts.find((part) => part.type === "hour")?.value)
+  const minute = Number(parts.find((part) => part.type === "minute")?.value)
+  const time = parts
+    .filter((part) => part.type !== "dayPeriod")
+    .map((part) => part.value)
+    .join("")
+    .trimEnd()
+  const period = parts.find((part) => part.type === "dayPeriod")?.value ?? ""
 
-  // tz offset = (tz wall-clock instant) − (UTC wall-clock instant), each read
-  // back as a local Date. In minutes, positive = east of UTC.
-  const viewerOffset = -now.getTimezoneOffset()
-  const targetOffset =
-    (new Date(now.toLocaleString("en-US", { timeZone })).getTime() -
-      new Date(now.toLocaleString("en-US", { timeZone: "UTC" })).getTime()) /
-    60000
-  const hoursDiff = Math.abs(targetOffset - viewerOffset) / 60
-  const diff =
-    hoursDiff < 1
-      ? " // same time"
-      : ` // ${Math.floor(hoursDiff)}h ${targetOffset > viewerOffset ? "ahead" : "behind"}`
-
-  return { time, hour, minute, diff }
+  return { time, period, hour, minute }
 }
 
 type CurrentLocalTimeItemProps = {
   timeZone: string
+  locationName: string
 }
 
-type ClockIds = { time: string; diff: string; hands: string }
+type ClockIds = {
+  time: string
+  period: string
+  hands: string
+}
 
 // Shared `compute`/`handsPath` are passed as arguments rather than referenced
 // because this body is serialized via `.toString()` (globals + args only).
@@ -134,11 +140,11 @@ function runClockScript(
   handsPath: typeof clockHandsPath
 ) {
   try {
-    const { time, diff, hour, minute } = compute(timeZone)
+    const { time, period, hour, minute } = compute(timeZone)
     const t = document.getElementById(ids.time)
     if (t) t.textContent = time
-    const d = document.getElementById(ids.diff)
-    if (d) d.textContent = diff
+    const periodElement = document.getElementById(ids.period)
+    if (periodElement) periodElement.textContent = period
     const p = document.getElementById(ids.hands)
     if (p) p.setAttribute("d", handsPath(hour, minute))
   } catch {}

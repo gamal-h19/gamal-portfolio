@@ -12,6 +12,7 @@ import { fontVariables } from "@/lib/fonts"
 import { JsonLdScript } from "@/lib/json-ld"
 import { Providers } from "@/components/providers"
 import { USER } from "@/features/portfolio/data/user"
+import { USER_AR } from "@/features/portfolio/data/user-ar"
 
 function getWebSiteJsonLd(): WithContext<WebSite> {
   return {
@@ -40,68 +41,61 @@ const darkModeScript = String.raw`
 `
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_INFO.url),
+  ...(SITE_INFO.url ? { metadataBase: new URL(SITE_INFO.url) } : {}),
   title: {
-    template: `%s – ${SITE_INFO.name}`,
-    default: `${USER.displayName} – ${USER.jobTitle}`,
+    template: "%s | جمال حسن",
+    default: "جمال حسن | مصمم تجربة المستخدم ومدير المنتجات",
   },
   description: SITE_INFO.description,
   keywords: SITE_INFO.keywords,
   authors: [
     {
-      name: "ncdai",
+      name: USER_AR.displayName,
       url: SITE_INFO.url,
     },
   ],
-  creator: "ncdai",
+  creator: USER_AR.displayName,
   openGraph: {
-    siteName: SITE_INFO.name,
+    siteName: USER_AR.displayName,
     url: "/",
     type: "profile",
-    locale: "en_US",
-    firstName: USER.firstName,
-    lastName: USER.lastName,
+    locale: "ar_EG",
+    firstName: USER_AR.displayName.split(" ")[0],
+    lastName: USER_AR.displayName.split(" ").slice(1).join(" "),
     username: USER.username,
     gender: USER.gender,
-    images: [
-      {
-        url: SITE_INFO.ogImage,
-        width: 1200,
-        height: 630,
-        alt: SITE_INFO.name,
-      },
-    ],
+    ...(SITE_INFO.url
+      ? {
+          images: [
+            {
+              url: SITE_INFO.ogImage,
+              width: 1200,
+              height: 630,
+              alt: SITE_INFO.name,
+            },
+          ],
+        }
+      : {}),
   },
   twitter: {
     card: "summary_large_image",
     site: X_HANDLE,
     creator: X_HANDLE,
-    images: [SITE_INFO.ogImage],
+    ...(SITE_INFO.url ? { images: [SITE_INFO.ogImage] } : {}),
   },
   icons: {
     icon: [
       {
-        url: "https://assets.chanhdai.com/images/favicon.ico",
-        sizes: "32x32",
-      },
-      {
-        url: "https://assets.chanhdai.com/images/favicon.svg",
-        sizes: "any",
+        url: "/favicon.svg",
         type: "image/svg+xml",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "https://assets.chanhdai.com/images/favicon-dark.svg",
-        sizes: "any",
-        type: "image/svg+xml",
-        media: "(prefers-color-scheme: dark)",
       },
     ],
-    apple: {
-      url: "https://assets.chanhdai.com/images/apple-touch-icon.png",
-      type: "image/png",
-      sizes: "180x180",
-    },
+    apple: [
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+    ],
   },
 }
 
@@ -118,19 +112,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
-      <head>
-        <script
-          type="text/javascript"
+    <html
+      lang="ar"
+      dir="rtl"
+      className={fontVariables}
+      suppressHydrationWarning
+    >
+      <body className="font-eight font-features-['ss01','zero']">
+        <Script
+          id="dark-mode-initialization"
           dangerouslySetInnerHTML={{ __html: darkModeScript }}
+          strategy="beforeInteractive"
         />
-        {/*
-          Thanks @tailwindcss. We inject the script via the `<Script/>` tag again,
-          since we found the regular `<script>` tag to not execute when rendering a not-found page.
-         */}
-        <Script src={`data:text/javascript;base64,${btoa(darkModeScript)}`} />
-        <script
-          type="text/javascript"
+        <Script
+          id="avatar-lights-initialization"
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -139,9 +134,10 @@ export default function RootLayout({
               } catch(_) {}
             `,
           }}
+          strategy="beforeInteractive"
         />
-        <script
-          type="text/javascript"
+        <Script
+          id="sidebar-initialization"
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -150,15 +146,12 @@ export default function RootLayout({
               } catch(_) {}
             `,
           }}
+          strategy="beforeInteractive"
         />
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+        )}
         <JsonLdScript data={getWebSiteJsonLd()} />
-      </head>
-
-      {process.env.NEXT_PUBLIC_GTM_ID && (
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-      )}
-
-      <body>
         <Providers>
           <NuqsAdapter>{children}</NuqsAdapter>
         </Providers>

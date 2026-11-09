@@ -3,6 +3,7 @@
 import type { TOCItemType } from "fumadocs-core/toc"
 
 import { trackEvent } from "@/lib/events"
+import { useLanguage } from "@/lib/i18n/language-context"
 import { uMiniMapOpenSound } from "@/lib/soundcn/u-mini-map-open"
 import { cn } from "@/lib/utils"
 import { useSound } from "@/hooks/soundcn/use-sound"
@@ -24,6 +25,8 @@ export function TOCMinimap({
   className?: string
 }) {
   const [play] = useSound(uMiniMapOpenSound, { volume: 0.3 })
+  const { dir } = useLanguage()
+  const side = dir === "rtl" ? "right" : "left"
 
   if (!items.length) {
     return null
@@ -31,7 +34,7 @@ export function TOCMinimap({
 
   return (
     <AnchorProvider toc={items} options={options}>
-      <TOCMinimapContainer className={cn("ml-auto w-18", className)}>
+      <TOCMinimapContainer className={cn("ms-auto w-18", className)}>
         <HoverCard
           onOpenChange={(open) => {
             if (open) {
@@ -41,24 +44,24 @@ export function TOCMinimap({
           }}
         >
           <HoverCardTrigger
-            delay={0.1}
-            closeDelay={0.1}
+            delay={0}
+            closeDelay={0}
             render={
-              <div className="flex max-h-[calc(100dvh-var(--doc-cols-top,0)+(--spacing(-24)))] flex-col gap-3 overflow-hidden py-3 pl-6 opacity-100 transition-opacity duration-200 data-popup-open:opacity-0">
+              <div className="flex max-h-[50dvh] flex-col gap-3 overflow-hidden py-3 ps-6 opacity-100 transition-opacity duration-200 data-popup-open:opacity-0">
                 <Minimap />
               </div>
             }
           />
 
           <HoverCardContent
-            className="w-56 overflow-hidden p-0 duration-200 data-[side=left]:slide-in-from-right-3 data-[side=left]:slide-out-to-right-3 data-open:zoom-in-100 data-closed:zoom-out-100"
+            className="w-56 overflow-hidden p-0 duration-200 data-[side=left]:slide-in-from-right-3 data-[side=left]:slide-out-to-right-3 data-[side=right]:slide-in-from-left-3 data-[side=right]:slide-out-to-left-3 data-open:zoom-in-100 data-closed:zoom-out-100"
             align="start"
             alignOffset={0}
-            side="left"
+            side={side}
             sideOffset={-60}
             positionMethod="fixed"
           >
-            <div className="flex max-h-[calc(100dvh-var(--doc-cols-top,0)+(--spacing(-24)))] overflow-y-auto overscroll-contain">
+            <div className="flex max-h-[50dvh] overflow-y-auto overscroll-contain">
               <TOCList />
             </div>
           </HoverCardContent>
@@ -85,8 +88,8 @@ function Minimap() {
           data-active={item.active}
           className={cn(
             "pointer-events-none h-0.5 w-6 shrink-0 rounded-xs bg-ring/50 transition-[background-color] duration-200 ease-out",
-            "data-[depth=3]:ml-2 data-[depth=3]:w-4",
-            "data-[depth=4]:ml-4 data-[depth=4]:w-2",
+            "data-[depth=3]:ms-2 data-[depth=3]:w-4",
+            "data-[depth=4]:ms-4 data-[depth=4]:w-2",
             "data-active:bg-foreground"
           )}
           aria-hidden
@@ -129,7 +132,7 @@ function TOCList() {
             className={cn(
               "line-clamp-2 w-full transition-[color] duration-200",
               "text-muted-foreground hover:text-foreground data-active:text-foreground",
-              "data-[depth=3]:pl-4 data-[depth=4]:pl-8"
+              "data-[depth=3]:ps-4 data-[depth=4]:ps-8"
             )}
             onClick={handleItemClick}
           >

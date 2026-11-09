@@ -9,7 +9,7 @@ export function ChanhDaiMark(props: React.ComponentProps<"svg">) {
     >
       <path
         fill="currentColor"
-        d="M192 256H64v-64h128v64ZM448 64H320v128h128v64H256V0h192v64ZM64 192H0V64h64v128ZM512 192h-64V64h64v128ZM192 64H64V0h128v64Z"
+        d="M208 56H56v144h96v-44h-48v-44h104v144H0V0h208v56ZM304 0h56v100h96V0h56v256h-56v-100h-96v100h-56V0Z"
       />
     </svg>
   )

@@ -7,12 +7,12 @@ import {
 } from "../lib/search-params"
 
 const CATEGORY_LABELS: Record<BookmarkCategoryParam, string> = {
-  article: "Article",
-  course: "Course",
-  book: "Book",
-  reference: "Reference",
-  "ui-library": "UI Library",
-  software: "Software",
+  article: "مقال",
+  course: "دورة",
+  book: "كتاب",
+  reference: "مرجع",
+  "ui-library": "مكتبة واجهات",
+  software: "برنامج",
 }
 
 function FilterTab({
@@ -29,7 +29,7 @@ function FilterTab({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className="border-r border-line p-4 font-mono text-[.8125rem]/4 font-medium tracking-wide text-muted-foreground uppercase transition-[color,background-color] ease-out hover:bg-accent-muted aria-pressed:bg-accent-muted aria-pressed:text-foreground"
+      className="border-r border-line p-4 font-sans text-[.8125rem]/4 font-medium tracking-wide text-muted-foreground uppercase transition-[color,background-color] ease-out hover:bg-accent-muted aria-pressed:bg-accent-muted aria-pressed:text-foreground"
     >
       {children}
     </button>
@@ -38,7 +38,6 @@ function FilterTab({
 
 export function BookmarkFilters() {
   const [filters, setFilters] = useBookmarkFilters()
-
   return (
     <div className="no-scrollbar scroll-fade-x overflow-x-auto">
       <div
@@ -47,14 +46,14 @@ export function BookmarkFilters() {
         aria-labelledby="bookmark-category-filter-label"
       >
         <span id="bookmark-category-filter-label" className="sr-only">
-          Filter by category
+          تصفية حسب الفئة
         </span>
 
         <FilterTab
           active={filters.category === null}
           onClick={() => setFilters({ category: null })}
         >
-          All
+          الكل
         </FilterTab>
 
         {BOOKMARK_CATEGORY_PARAMS.map((category) => (

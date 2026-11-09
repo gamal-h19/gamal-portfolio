@@ -2,6 +2,7 @@
 
 import { LinkIcon } from "lucide-react"
 
+import { useLanguage } from "@/lib/i18n/language-context"
 import { cn } from "@/lib/utils"
 import { CopyButton } from "@/components/copy-button"
 import { createHeadingUrl } from "@/components/heading"
@@ -13,6 +14,8 @@ export function PanelTitleCopy({
 }: Omit<React.ComponentProps<typeof CopyButton>, "id" | "text"> & {
   id: string
 }) {
+  const { t } = useLanguage()
+
   return (
     <CopyButton
       className={cn(
@@ -22,7 +25,7 @@ export function PanelTitleCopy({
       variant="ghost"
       text={() => createHeadingUrl(id || "")}
       idleIcon={<LinkIcon />}
-      aria-label="Copy link to section"
+      aria-label={t("action.copySectionLink")}
       {...props}
     />
   )

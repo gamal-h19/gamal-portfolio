@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+  <!-- Blueprint Background -->
+  <rect width="800" height="450" fill="#090a0c" />
+  
+  <defs>
+    <pattern id="grid-pattern-mabeaty" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1" />
+    </pattern>
+    <radialGradient id="glow-mabeaty" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.0" />
+    </radialGradient>
+    <linearGradient id="card-grad-mabeaty" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#16181d" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#111216" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Grid & Glow -->
+  <rect width="800" height="450" fill="url(#grid-pattern-mabeaty)" />
+  <rect width="800" height="450" fill="url(#glow-mabeaty)" />
+
+  <!-- Outer Technical Blueprint Border -->
+  <rect x="24" y="24" width="752" height="402" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+  
+  <!-- Corner Precision Crosses -->
+  <g stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.8">
+    <path d="M 20 24 H 28 M 24 20 V 28" />
+    <path d="M 772 24 H 780 M 776 20 V 28" />
+    <path d="M 20 426 H 28 M 24 422 V 430" />
+    <path d="M 772 426 H 780 M 776 422 V 430" />
+  </g>
+
+  <!-- Header Technical Bar -->
+  <g font-family="monospace" font-size="11" letter-spacing="1">
+    <line x1="24" y1="64" x2="776" y2="64" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+  </g>
+
+  <!-- Left: Service Discovery Taxonomy Grid -->
+  <g transform="translate(48, 84)">
+    <rect width="320" height="315" rx="4" fill="url(#card-grad-mabeaty)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+    
+    <g transform="translate(18, 20)">
+      <rect x="234" y="-3" width="50" height="18" rx="2" fill="#f43f5e" fill-opacity="0.15" stroke="#f43f5e" stroke-opacity="0.3" stroke-width="1" />
+    </g>
+    <line x1="18" y1="42" x2="302" y2="42" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+
+    <!-- Categories 2x2 Grid -->
+    <g transform="translate(18, 54)">
+      <!-- Cat 1 -->
+      <g>
+        <rect width="136" height="74" rx="3" fill="#181a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="10" y="10" width="22" height="22" rx="3" fill="#f43f5e" fill-opacity="0.15" />
+      </g>
+      <!-- Cat 2 -->
+      <g transform="translate(148, 0)">
+        <rect width="136" height="74" rx="3" fill="#181a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="10" y="10" width="22" height="22" rx="3" fill="#f43f5e" fill-opacity="0.15" />
+      </g>
+      <!-- Cat 3 -->
+      <g transform="translate(0, 84)">
+        <rect width="136" height="74" rx="3" fill="#181a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="10" y="10" width="22" height="22" rx="3" fill="#f43f5e" fill-opacity="0.15" />
+      </g>
+      <!-- Cat 4 -->
+      <g transform="translate(148, 84)">
+        <rect width="136" height="74" rx="3" fill="#181a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="10" y="10" width="22" height="22" rx="3" fill="#f43f5e" fill-opacity="0.15" />
+      </g>
+    </g>
+
+    <!-- Usability Restructuring Note -->
+    <g transform="translate(18, 230)">
+      <rect width="284" height="62" rx="3" fill="#171920" stroke="#f43f5e" stroke-opacity="0.2" stroke-width="1" />
+    </g>
+  </g>
+
+  <!-- Right: 3-Step Booking Appointment Funnel -->
+  <g transform="translate(390, 84)">
+    <rect width="362" height="315" rx="4" fill="url(#card-grad-mabeaty)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+    
+    <g transform="translate(20, 20)">
+    </g>
+    <line x1="20" y1="38" x2="342" y2="38" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+
+    <!-- Step Items -->
+    <g transform="translate(20, 52)">
+      <!-- Step 1 -->
+      <g>
+        <rect width="322" height="48" rx="3" fill="#171a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="238" y="15" width="72" height="18" rx="2" fill="#10b981" fill-opacity="0.1" />
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 56)">
+        <rect width="322" height="48" rx="3" fill="#171a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="238" y="15" width="72" height="18" rx="2" fill="#f43f5e" fill-opacity="0.15" stroke="#f43f5e" stroke-opacity="0.3" stroke-width="1" />
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 112)">
+        <rect width="322" height="48" rx="3" fill="#171a22" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
+        <rect x="238" y="15" width="72" height="18" rx="2" fill="#10b981" fill-opacity="0.1" />
+      </g>
+    </g>
+
+    <!-- Bottom Technical Spec -->
+    <g transform="translate(20, 230)">
+      <rect width="322" height="62" rx="3" fill="#161920" stroke="#f43f5e" stroke-opacity="0.2" stroke-width="1" />
+    </g>
+  </g>
+</svg>
