@@ -46,6 +46,10 @@ export const SITE_ROUTES: NavItem<Route>[] = [
     href: "/newsletter" as Route,
   },
   {
+    title: "Consultation",
+    href: "/consultation" as Route,
+  },
+  {
     title: "Contact",
     href: "/contact" as Route,
   },

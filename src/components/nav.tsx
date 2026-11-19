@@ -36,7 +36,9 @@ export function Nav({
             href={href}
             aria-current={isActive ? "page" : undefined}
             className={
-              href === "/newsletter" || href === "/contact"
+              href === "/newsletter" ||
+              href === "/consultation" ||
+              href === "/contact"
                 ? "text-xs tracking-normal"
                 : undefined
             }

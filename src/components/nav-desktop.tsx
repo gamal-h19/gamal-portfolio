@@ -13,6 +13,7 @@ const NAV_KEY_MAP: Record<string, string> = {
   "/case-studies": "nav.caseStudies",
   "/blog": "nav.blog",
   "/newsletter": "nav.newsletter",
+  "/consultation": "nav.consultation",
   "/contact": "nav.contact",
 }
 

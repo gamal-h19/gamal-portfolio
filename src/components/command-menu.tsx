@@ -8,6 +8,7 @@ import {
   AwardIcon,
   BoxIcon,
   BriefcaseBusinessIcon,
+  CalendarCheckIcon,
   CornerDownLeftIcon,
   DownloadIcon,
   FileTextIcon,
@@ -98,6 +99,12 @@ const MENU_LINKS: CommandLinkItem[] = [
     shortcut: "GN",
   },
   {
+    title: "Consultation",
+    href: "/consultation",
+    kind: "page",
+    icon: <CalendarCheckIcon />,
+  },
+  {
     title: "Contact",
     href: "/contact",
     kind: "page",
@@ -182,6 +189,7 @@ const AR_MENU_TITLES: Record<string, string> = {
   "/case-studies": "دراسات الحالة",
   "/blog": "مقالاتي",
   "/newsletter": "النشرة",
+  "/consultation": "استشارة",
   "/contact": "تواصل",
 }
 
