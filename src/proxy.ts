@@ -13,6 +13,7 @@ const STATIC_ROUTES = new Set([
   "/consultation",
   "/contact",
   "/newsletter",
+  "/templates",
 ])
 
 const BLOG_SLUGS = new Set(BLOG_POST_SLUGS)

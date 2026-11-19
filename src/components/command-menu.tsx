@@ -14,6 +14,7 @@ import {
   FileTextIcon,
   GraduationCapIcon,
   LayersIcon,
+  LayoutTemplateIcon,
   MailIcon,
   MonitorIcon,
   MoonStarIcon,
@@ -90,6 +91,12 @@ const MENU_LINKS: CommandLinkItem[] = [
     kind: "page",
     icon: <NewsIcon />,
     shortcut: "GL",
+  },
+  {
+    title: "Templates",
+    href: "/templates",
+    kind: "page",
+    icon: <LayoutTemplateIcon />,
   },
   {
     title: "Newsletter",
@@ -188,6 +195,7 @@ const AR_MENU_TITLES: Record<string, string> = {
   "/about": "عنّي",
   "/case-studies": "دراسات الحالة",
   "/blog": "مقالاتي",
+  "/templates": "القوالب",
   "/newsletter": "النشرة",
   "/consultation": "استشارة",
   "/contact": "تواصل",

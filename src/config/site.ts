@@ -42,6 +42,10 @@ export const SITE_ROUTES: NavItem<Route>[] = [
     href: "/blog" as Route,
   },
   {
+    title: "Templates",
+    href: "/templates" as Route,
+  },
+  {
     title: "Newsletter",
     href: "/newsletter" as Route,
   },
