@@ -6,6 +6,7 @@ export const TRANSLATIONS: { ar: Record<string, string> } = {
     "nav.caseStudies": "أعمال",
     "nav.blog": "مقالات",
     "nav.newsletter": "النشرة",
+    "nav.consultation": "استشارة",
     "nav.contact": "تواصل",
     "nav.openMenu": "فتح القائمة",
     "nav.closeMenu": "إغلاق القائمة",
