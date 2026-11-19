@@ -2,7 +2,6 @@
 
 import { CalendarCheckIcon, CheckIcon, ClockIcon, ZapIcon } from "lucide-react"
 
-import { trackEvent } from "@/lib/events"
 import { Button } from "@/components/ui/button"
 import { Tag } from "@/components/ui/tag"
 import {
@@ -12,13 +11,17 @@ import {
   PageHeadingTitle,
 } from "@/components/page-heading"
 import {
+  CONSULTATION_BOOKING_URL,
+  CONSULTATION_DURATION_MIN,
+  CONSULTATION_PRICE_USD,
+  trackConsultationBookClick,
+} from "@/features/consultation/lib/analytics"
+import {
   Panel,
   PanelContent,
   PanelHeader,
   PanelTitle,
 } from "@/features/portfolio/components/panel"
-
-const BOOKING_URL = "https://cal.com/gamal-hassan-n2ar7q/30min"
 
 const SESSION_POINTS = [
   "نناقش التحدي الذي تواجهه في منتجك أو تجربة المستخدم.",
@@ -63,7 +66,7 @@ export function ConsultationContent() {
                 </h2>
                 <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                   <ClockIcon className="size-3.5 text-primary" />
-                  30 دقيقة
+                  {CONSULTATION_DURATION_MIN} دقيقة
                 </span>
               </div>
 
@@ -72,7 +75,7 @@ export function ConsultationContent() {
                   dir="ltr"
                   className="text-4xl font-medium text-foreground"
                 >
-                  10$
+                  {CONSULTATION_PRICE_USD}$
                 </span>
                 <span className="text-sm text-muted-foreground">للجلسة</span>
               </p>
@@ -96,17 +99,18 @@ export function ConsultationContent() {
               nativeButton={false}
               render={
                 <a
-                  href={BOOKING_URL}
+                  href={CONSULTATION_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>
-                    trackEvent({ name: "consultation_book_click" })
+                    trackConsultationBookClick({ surface: "consultation_page" })
                   }
                 />
               }
             >
               <CalendarCheckIcon className="size-3.5" />
               احجز جلستك الآن
+              <span className="sr-only">(يفتح في تبويب جديد)</span>
             </Button>
           </div>
         </PanelContent>
