@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { isConsultationBookingAvailable } from "@/features/consultation/lib/booking-availability"
+
 import { ConsultationContent } from "./consultation-content"
 
 export const metadata: Metadata = {
@@ -31,6 +33,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ConsultationPage() {
-  return <ConsultationContent />
+export default async function ConsultationPage() {
+  const bookingAvailable = await isConsultationBookingAvailable()
+  return <ConsultationContent bookingAvailable={bookingAvailable} />
 }
