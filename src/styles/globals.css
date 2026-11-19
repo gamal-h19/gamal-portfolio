@@ -782,3 +782,8 @@ html[lang="ar"] :where(h1, h2, h3, h4, h5, h6) {
 #carbonads #carbon-responsive .carbon-poweredby {
   @apply text-xs text-muted-foreground/80 opacity-100;
 }
+
+/* Vercel injects its toolbar (the floating "•••" button) into deployments; keep it off the public site. */
+vercel-live-feedback {
+  display: none !important;
+}
