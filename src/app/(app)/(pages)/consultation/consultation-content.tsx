@@ -4,7 +4,7 @@ import {
   PageHeadingTagline,
   PageHeadingTitle,
 } from "@/components/page-heading"
-import { ConsultationPricingCard } from "@/features/consultation/components/consultation-pricing-card"
+import { ConsultationPackages } from "@/features/consultation/components/consultation-packages"
 import {
   Panel,
   PanelContent,
@@ -36,12 +36,12 @@ export function ConsultationContent({
       <Panel id="consultation-booking">
         <PanelHeader>
           <PanelTitle className="text-right tracking-normal" dir="rtl">
-            جلسة استشارية
+            باقات الاستشارة
           </PanelTitle>
         </PanelHeader>
 
         <PanelContent className="sm:p-5">
-          <ConsultationPricingCard bookingAvailable={bookingAvailable} />
+          <ConsultationPackages bookingAvailable={bookingAvailable} />
         </PanelContent>
       </Panel>
     </div>

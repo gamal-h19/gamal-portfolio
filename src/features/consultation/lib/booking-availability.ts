@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache"
 
-import { CONSULTATION_BOOKING_URL } from "./analytics"
+import { CONSULTATION_BOOKING_URL } from "./packages"
 
 /**
  * Only a network failure, a timeout or a 5xx counts as down: cal.com may answer
