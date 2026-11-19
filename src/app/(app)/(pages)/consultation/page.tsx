@@ -7,7 +7,7 @@ import { ConsultationContent } from "./consultation-content"
 export const metadata: Metadata = {
   title: "استشارة",
   description:
-    "احجز جلسة استشارية لمدة 30 دقيقة مع جمال حسن لمناقشة تحدي تجربة المستخدم أو المنتج الذي تعمل عليه.",
+    "احجز جلسة استشارية مع جمال حسن من بين 3 باقات (20$ و30$ و50$) لمناقشة تحدي تجربة المستخدم أو المنتج الذي تعمل عليه.",
   alternates: {
     canonical: "/consultation",
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "استشارة | جمال حسن",
     description:
-      "جلسة استشارية مركّزة لمدة 30 دقيقة لمناقشة منتجك وتحديد الخطوة التالية.",
+      "جلسة استشارية مركّزة من 30 إلى 60 دقيقة لمناقشة منتجك وتحديد الخطوة التالية.",
     url: "/consultation",
     type: "website",
   },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "استشارة | جمال حسن",
     description:
-      "جلسة استشارية مركّزة لمدة 30 دقيقة لمناقشة منتجك وتحديد الخطوة التالية.",
+      "جلسة استشارية مركّزة من 30 إلى 60 دقيقة لمناقشة منتجك وتحديد الخطوة التالية.",
   },
 }
 

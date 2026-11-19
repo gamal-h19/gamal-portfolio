@@ -5,10 +5,8 @@ import { ExternalLinkIcon, SmartphoneIcon, WalletIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/copy-button"
-import {
-  CONSULTATION_PRICE_USD,
-  trackConsultationPaymentClick,
-} from "@/features/consultation/lib/analytics"
+import { trackConsultationPaymentClick } from "@/features/consultation/lib/analytics"
+import type { ConsultationPackage } from "@/features/consultation/lib/packages"
 import type { ConsultationPaymentMethod } from "@/features/consultation/lib/payment"
 import {
   CONSULTATION_INSTAPAY_ADDRESS,
@@ -20,10 +18,12 @@ function PaymentValue({
   value,
   method,
   copyLabel,
+  pkg,
 }: {
   value: string
   method: ConsultationPaymentMethod
   copyLabel: string
+  pkg: ConsultationPackage
 }) {
   return (
     <div className="flex min-w-0 items-center justify-between gap-2 rounded-lg bg-muted/50 px-3 py-1.5">
@@ -40,7 +40,7 @@ function PaymentValue({
         size="icon-xs"
         text={value}
         onCopySuccess={() =>
-          trackConsultationPaymentClick({ method, action: "copy" })
+          trackConsultationPaymentClick({ method, action: "copy", pkg })
         }
       />
     </div>
@@ -48,8 +48,10 @@ function PaymentValue({
 }
 
 export function ConsultationPaymentMethods({
+  pkg,
   className,
 }: {
+  pkg: ConsultationPackage
   className?: string
 }) {
   return (
@@ -66,8 +68,8 @@ export function ConsultationPaymentMethods({
           طرق الدفع
         </h3>
         <p className="text-sm wrap-break-word text-muted-foreground">
-          حوّل قيمة الجلسة (ما يعادل {CONSULTATION_PRICE_USD}$ بالجنيه المصري)
-          عبر InstaPay أو المحفظة الإلكترونية، ثم احجز موعدك.
+          حوّل قيمة {pkg.name} (ما يعادل {pkg.priceUsd}$ بالجنيه المصري) عبر
+          InstaPay أو المحفظة الإلكترونية لتثبيت موعدك.
         </p>
       </div>
 
@@ -81,6 +83,7 @@ export function ConsultationPaymentMethods({
             value={CONSULTATION_INSTAPAY_ADDRESS}
             method="instapay"
             copyLabel="انسخ عنوان InstaPay"
+            pkg={pkg}
           />
           <Button
             size="sm"
@@ -96,6 +99,7 @@ export function ConsultationPaymentMethods({
                   trackConsultationPaymentClick({
                     method: "instapay",
                     action: "open_link",
+                    pkg,
                   })
                 }
               />
@@ -116,6 +120,7 @@ export function ConsultationPaymentMethods({
             value={CONSULTATION_WALLET_NUMBER}
             method="wallet"
             copyLabel="انسخ رقم المحفظة"
+            pkg={pkg}
           />
           <p className="text-xs wrap-break-word text-muted-foreground">
             حوّل المبلغ إلى هذا الرقم من تطبيق محفظتك.
