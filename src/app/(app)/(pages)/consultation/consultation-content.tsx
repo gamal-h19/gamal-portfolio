@@ -10,11 +10,11 @@ import {
   PageHeadingTagline,
   PageHeadingTitle,
 } from "@/components/page-heading"
+import { useConsultationBooking } from "@/features/consultation/hooks/use-consultation-booking"
 import {
   CONSULTATION_BOOKING_URL,
   CONSULTATION_DURATION_MIN,
   CONSULTATION_PRICE_USD,
-  trackConsultationBookClick,
 } from "@/features/consultation/lib/analytics"
 import {
   Panel,
@@ -30,6 +30,8 @@ const SESSION_POINTS = [
 ]
 
 export function ConsultationContent() {
+  const openBooking = useConsultationBooking("consultation_page")
+
   return (
     <div
       dir="rtl"
@@ -102,15 +104,13 @@ export function ConsultationContent() {
                   href={CONSULTATION_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() =>
-                    trackConsultationBookClick({ surface: "consultation_page" })
-                  }
+                  aria-haspopup="dialog"
+                  onClick={openBooking}
                 />
               }
             >
               <CalendarCheckIcon className="size-3.5" />
               احجز جلستك الآن
-              <span className="sr-only">(يفتح في تبويب جديد)</span>
             </Button>
           </div>
         </PanelContent>
