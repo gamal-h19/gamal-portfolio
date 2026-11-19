@@ -102,8 +102,6 @@ export function ConsultationContent() {
               render={
                 <a
                   href={CONSULTATION_BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   aria-haspopup="dialog"
                   onClick={openBooking}
                 />

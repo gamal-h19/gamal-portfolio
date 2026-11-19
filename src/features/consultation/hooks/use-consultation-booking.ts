@@ -16,14 +16,10 @@ type CalApi = Awaited<ReturnType<typeof getCalApi>>
 
 const CAL_NAMESPACE = "consultation"
 
-function isCalEmbedLoaded() {
-  return Boolean((window as { Cal?: { instance?: unknown } }).Cal?.instance)
-}
-
 /**
  * Opens the cal.com booking page in a popup on top of the site, so the
- * visitor never leaves the portfolio. Until the embed script has loaded (or
- * when a blocker stops it), the click falls through to the link's href.
+ * visitor never leaves the portfolio. A click before the embed script has
+ * loaded is queued by cal.com and opens the popup once it is ready.
  */
 export function useConsultationBooking(surface: ConsultationSurface) {
   const calRef = useRef<CalApi | null>(null)
@@ -47,6 +43,7 @@ export function useConsultationBooking(surface: ConsultationSurface) {
       if (!active) return
       calRef.current = cal
       cal("ui", { layout: "month_view" })
+      cal("preload", { calLink: CONSULTATION_CAL_LINK })
       cal("on", {
         action: "bookingSuccessfulV2",
         callback: onBookingSuccessful,
@@ -63,13 +60,12 @@ export function useConsultationBooking(surface: ConsultationSurface) {
   }, [surface])
 
   return useCallback(
-    (event: MouseEvent<HTMLAnchorElement>) => {
+    async (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
       trackConsultationBookClick({ surface })
 
-      const cal = calRef.current
-      if (!cal || !isCalEmbedLoaded()) return
-
-      event.preventDefault()
+      const cal =
+        calRef.current ?? (await getCalApi({ namespace: CAL_NAMESPACE }))
       cal("modal", {
         calLink: CONSULTATION_CAL_LINK,
         config: {
