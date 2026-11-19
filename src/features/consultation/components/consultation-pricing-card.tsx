@@ -12,6 +12,7 @@ import {
   trackConsultationCtaClick,
 } from "@/features/consultation/lib/analytics"
 
+import { ConsultationPaymentMethods } from "./consultation-payment-methods"
 import { SprintBadge } from "./sprint-badge"
 
 const SESSION_TITLE = `استشارة ${CONSULTATION_DURATION_MIN} دقيقة مع جمال`
@@ -73,6 +74,8 @@ export function ConsultationPricingCard({
           </li>
         ))}
       </ul>
+
+      <ConsultationPaymentMethods />
 
       {bookingAvailable ? (
         <Button
