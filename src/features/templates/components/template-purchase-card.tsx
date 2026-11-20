@@ -18,6 +18,8 @@ export function TemplatePurchaseCard({ template }: { template: Template }) {
   const isFree = template.pricing === "free"
   const href = template.href ?? TEMPLATE_REQUEST_HREF
   const isExternal = href.startsWith("http")
+  // A file in public/ is not a route: skip prefetching and client navigation.
+  const isDownload = href.startsWith("/downloads/")
   const CtaIcon = isFree ? DownloadIcon : ShoppingBagIcon
 
   const includes = [
@@ -79,6 +81,7 @@ export function TemplatePurchaseCard({ template }: { template: Template }) {
           <AppLink
             href={href}
             {...(isExternal ? { target: "_blank", rel: "noopener" } : {})}
+            {...(isDownload ? { download: true, prefetch: false } : {})}
             onClick={() =>
               trackEvent({
                 name: "template_get_click",
