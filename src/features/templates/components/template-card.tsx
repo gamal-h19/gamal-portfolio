@@ -8,6 +8,7 @@ import { AppLink } from "@/components/app-link"
 
 import { TEMPLATE_CATEGORIES, type Template } from "../data/templates"
 import { getTemplatePath } from "../lib/get-template"
+import { AddToCartButton } from "./add-to-cart-button"
 
 const CATEGORY_LABELS = Object.fromEntries(
   TEMPLATE_CATEGORIES.map(({ value, label }) => [value, label])
@@ -65,28 +66,33 @@ export function TemplateCard({ template }: { template: Template }) {
           {template.format}
         </span>
 
-        <AppLink
-          href={getTemplatePath(template)}
-          className="inline-flex items-center gap-1 text-sm font-medium underline-offset-4 hover:underline"
-          onClick={() =>
-            trackEvent({
-              name: "template_click",
-              properties: {
-                template_id: template.id,
-                category: template.category,
-                pricing: template.pricing,
-              },
-            })
-          }
-        >
-          <span className="absolute inset-0" aria-hidden />
-          <span className="sr-only">{template.title}: </span>
-          عرض التفاصيل
-          <ArrowLeftIcon
-            className="size-4 transition-transform ease-out group-hover/template:-translate-x-0.5"
-            aria-hidden
-          />
-        </AppLink>
+        <div className="flex items-center gap-3">
+          {/* Above the card-wide link overlay, so it stays clickable. */}
+          <AddToCartButton template={template} className="relative z-10" />
+
+          <AppLink
+            href={getTemplatePath(template)}
+            className="inline-flex items-center gap-1 text-sm font-medium underline-offset-4 hover:underline"
+            onClick={() =>
+              trackEvent({
+                name: "template_click",
+                properties: {
+                  template_id: template.id,
+                  category: template.category,
+                  pricing: template.pricing,
+                },
+              })
+            }
+          >
+            <span className="absolute inset-0" aria-hidden />
+            <span className="sr-only">{template.title}: </span>
+            عرض التفاصيل
+            <ArrowLeftIcon
+              className="size-4 transition-transform ease-out group-hover/template:-translate-x-0.5"
+              aria-hidden
+            />
+          </AppLink>
+        </div>
       </div>
     </article>
   )

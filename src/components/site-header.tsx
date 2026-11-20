@@ -8,6 +8,7 @@ import { NavItemGitHub } from "@/components/nav-item-github"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { getBlogPosts } from "@/features/doc/data/documents"
 import type { DocPreview } from "@/features/doc/types/document"
+import { CartNavButton } from "@/features/templates/components/cart-nav-button"
 
 const BrandContextMenu = dynamic(
   () => import("@/components/brand-context-menu")
@@ -47,6 +48,7 @@ export function SiteHeader() {
             orientation="vertical"
             className="mx-2 data-vertical:h-5 data-vertical:self-center"
           />
+          <CartNavButton />
           <ThemeToggle />
         </div>
 

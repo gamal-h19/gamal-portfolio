@@ -1,26 +1,18 @@
 "use client"
 
-import {
-  ArrowUpLeftIcon,
-  CheckIcon,
-  DownloadIcon,
-  ShoppingBagIcon,
-} from "lucide-react"
+import { ArrowLeftIcon, CheckIcon } from "lucide-react"
 
-import { trackEvent } from "@/lib/events"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { AppLink } from "@/components/app-link"
 
-import { TEMPLATE_REQUEST_HREF, type Template } from "../data/templates"
+import type { Template } from "../data/templates"
+import { useCart } from "../hooks/use-cart"
+import { AddToCartButton } from "./add-to-cart-button"
 
 export function TemplatePurchaseCard({ template }: { template: Template }) {
+  const cart = useCart()
   const isFree = template.pricing === "free"
-  const href = template.href ?? TEMPLATE_REQUEST_HREF
-  const isExternal = href.startsWith("http")
-  // A file in public/ is not a route: skip prefetching and client navigation.
-  const isDownload = href.startsWith("/downloads/")
-  const CtaIcon = isFree ? DownloadIcon : ShoppingBagIcon
 
   const includes = [
     `ملف ${template.format} جاهز للنسخ والتعديل`,
@@ -72,39 +64,27 @@ export function TemplatePurchaseCard({ template }: { template: Template }) {
         ))}
       </ul>
 
-      <Button
-        size="lg"
-        variant={isFree ? "secondary" : "default"}
-        className="w-full gap-2"
-        nativeButton={false}
-        render={
-          <AppLink
-            href={href}
-            {...(isExternal ? { target: "_blank", rel: "noopener" } : {})}
-            {...(isDownload ? { download: true, prefetch: false } : {})}
-            onClick={() =>
-              trackEvent({
-                name: "template_get_click",
-                properties: {
-                  template_id: template.id,
-                  pricing: template.pricing,
-                  price_usd: template.priceUsd ?? 0,
-                },
-              })
-            }
-          />
-        }
-      >
-        <CtaIcon className="size-4" aria-hidden />
-        {isFree ? "احصل عليه مجانًا" : `اشترِ القالب بـ ${template.priceUsd}$`}
-        <ArrowUpLeftIcon className="size-4 opacity-60" aria-hidden />
-      </Button>
+      <div className="flex flex-col gap-2">
+        <AddToCartButton template={template} size="lg" className="w-full" />
+        {cart.has(template.id) && (
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full gap-2"
+            nativeButton={false}
+            render={<AppLink href="/checkout" />}
+          >
+            إتمام الطلب
+            <ArrowLeftIcon className="size-4" aria-hidden />
+          </Button>
+        )}
+      </div>
 
-      {!isFree && !template.href && (
-        <p className="text-xs/relaxed text-muted-foreground">
-          أرسل طلبك من صفحة التواصل، ويصلك القالب بعد تأكيد الطلب والدفع.
-        </p>
-      )}
+      <p className="text-xs/relaxed text-muted-foreground">
+        {isFree
+          ? "أضفه للسلة وأكمل الطلب باسمك وبريدك، ويصلك رابطه مباشرة."
+          : "أضفه للسلة وادفع عبر InstaPay أو المحفظة الإلكترونية، ويصلك رابطه على بريدك بعد تأكيد التحويل."}
+      </p>
     </div>
   )
 }
