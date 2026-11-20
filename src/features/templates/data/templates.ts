@@ -336,6 +336,7 @@ export const TEMPLATES: Template[] = [
       "معرفة أكثر المشكلات تكرارًا عبر كل الدراسات",
     ],
     audience: ["الباحثون", "مصممو تجربة المستخدم", "مديرو المنتجات"],
+    href: "/downloads/templates/ux-research-repository.xlsx",
   },
   {
     id: "heart-ux-metrics-dashboard",
@@ -374,6 +375,7 @@ export const TEMPLATES: Template[] = [
       "ربط قرارات التصميم بأثر قابل للقياس",
     ],
     audience: ["مصممو تجربة المستخدم", "مديرو المنتجات", "قادة التصميم"],
+    href: "/downloads/templates/heart-ux-metrics-dashboard.xlsx",
   },
   {
     id: "competitive-ux-analysis",
@@ -415,6 +417,7 @@ export const TEMPLATES: Template[] = [
       "مقارنة قابلة للتحديث مع كل إصدار جديد",
     ],
     audience: ["مصممو تجربة المستخدم", "مديرو المنتجات", "فرق التسويق"],
+    href: "/downloads/templates/competitive-ux-analysis.xlsx",
   },
   {
     id: "product-requirements-document",
