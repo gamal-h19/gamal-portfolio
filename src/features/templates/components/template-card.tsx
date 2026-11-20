@@ -1,16 +1,13 @@
 "use client"
 
-import { ArrowUpLeftIcon } from "lucide-react"
+import { ArrowLeftIcon } from "lucide-react"
 
 import { trackEvent } from "@/lib/events"
 import { cn } from "@/lib/utils"
 import { AppLink } from "@/components/app-link"
 
-import {
-  TEMPLATE_CATEGORIES,
-  TEMPLATE_REQUEST_HREF,
-  type Template,
-} from "../data/templates"
+import { TEMPLATE_CATEGORIES, type Template } from "../data/templates"
+import { getTemplatePath } from "../lib/get-template"
 
 const CATEGORY_LABELS = Object.fromEntries(
   TEMPLATE_CATEGORIES.map(({ value, label }) => [value, label])
@@ -34,10 +31,6 @@ export function TemplatePricingBadge({ template }: { template: Template }) {
 }
 
 export function TemplateCard({ template }: { template: Template }) {
-  const isFree = template.pricing === "free"
-  const href = template.href ?? TEMPLATE_REQUEST_HREF
-  const isExternal = href.startsWith("http")
-
   return (
     <article className="group/template relative flex h-full flex-col gap-3 p-4 transition-[background-color] ease-out hover:bg-accent-muted">
       <div className="flex items-center justify-between gap-2">
@@ -73,8 +66,7 @@ export function TemplateCard({ template }: { template: Template }) {
         </span>
 
         <AppLink
-          href={href}
-          {...(isExternal ? { target: "_blank", rel: "noopener" } : {})}
+          href={getTemplatePath(template)}
           className="inline-flex items-center gap-1 text-sm font-medium underline-offset-4 hover:underline"
           onClick={() =>
             trackEvent({
@@ -88,8 +80,12 @@ export function TemplateCard({ template }: { template: Template }) {
           }
         >
           <span className="absolute inset-0" aria-hidden />
-          {isFree ? "احصل عليه مجانًا" : "اطلب القالب"}
-          <ArrowUpLeftIcon className="size-4" aria-hidden />
+          <span className="sr-only">{template.title}: </span>
+          عرض التفاصيل
+          <ArrowLeftIcon
+            className="size-4 transition-transform ease-out group-hover/template:-translate-x-0.5"
+            aria-hidden
+          />
         </AppLink>
       </div>
     </article>

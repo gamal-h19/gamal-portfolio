@@ -27,6 +27,13 @@ describe("getLegacyLocaleTarget", () => {
     ).toBe(`/case-studies/${CASE_STUDIES[0].slug}`)
   })
 
+  it("maps existing template pages only", () => {
+    expect(getLegacyLocaleTarget("/ar/templates/product-roadmap")).toBe(
+      "/templates/product-roadmap"
+    )
+    expect(getLegacyLocaleTarget("/en/templates/not-a-template")).toBeNull()
+  })
+
   it("preserves valid preview routes", () => {
     expect(getLegacyLocaleTarget("/ar/preview/hero-01")).toBe(
       "/preview/hero-01"

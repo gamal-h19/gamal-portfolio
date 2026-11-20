@@ -4,6 +4,7 @@ import { registry } from "@/registry"
 
 import { BLOG_POST_SLUGS } from "@/features/doc/data/documents"
 import { CASE_STUDIES } from "@/features/portfolio/data/case-studies"
+import { TEMPLATES } from "@/features/templates/data/templates"
 
 const STATIC_ROUTES = new Set([
   "/",
@@ -18,6 +19,7 @@ const STATIC_ROUTES = new Set([
 
 const BLOG_SLUGS = new Set(BLOG_POST_SLUGS)
 const CASE_STUDY_SLUGS = new Set(CASE_STUDIES.map(({ slug }) => slug))
+const TEMPLATE_IDS = new Set(TEMPLATES.map(({ id }) => id))
 const PREVIEW_NAMES = new Set(
   registry.items
     .filter(
@@ -41,6 +43,10 @@ function isKnownArabicRoute(pathname: string) {
 
   if (segments.length === 2 && section === "case-studies") {
     return CASE_STUDY_SLUGS.has(slug)
+  }
+
+  if (segments.length === 2 && section === "templates") {
+    return TEMPLATE_IDS.has(slug)
   }
 
   if (segments.length === 2 && section === "preview") {
