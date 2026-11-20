@@ -11,7 +11,7 @@ from openpyxl.formatting.rule import CellIsRule, ColorScaleRule, FormulaRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 
-OUT = Path(__file__).parent
+OUT = Path(__file__).resolve().parents[2] / "public" / "downloads" / "templates"
 NAVY = "1E3A5F"
 MUTED = "4B5563"
 LIGHT = "EEF2F7"
