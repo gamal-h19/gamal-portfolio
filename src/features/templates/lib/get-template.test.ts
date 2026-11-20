@@ -4,6 +4,7 @@ import { TEMPLATES } from "../data/templates"
 import {
   getRelatedTemplates,
   getTemplateById,
+  getTemplateFileName,
   getTemplatePath,
 } from "./get-template"
 
@@ -62,5 +63,22 @@ describe("template details", () => {
       expect(template.benefits.length).toBeGreaterThan(0)
       expect(template.audience.length).toBeGreaterThan(0)
     }
+  })
+})
+
+describe("getTemplateFileName", () => {
+  it("uses the template's own file", () => {
+    expect(
+      getTemplateFileName(getTemplateById("heuristic-evaluation-checklist")!)
+    ).toBe("heuristic-evaluation-checklist.xlsx")
+  })
+
+  it("names a template without a file after its tool", () => {
+    expect(getTemplateFileName(getTemplateById("user-journey-map")!)).toBe(
+      "user-journey-map.fig"
+    )
+    expect(getTemplateFileName(getTemplateById("product-roadmap")!)).toBe(
+      "product-roadmap.xlsx"
+    )
   })
 })

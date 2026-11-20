@@ -8,6 +8,7 @@ import { AppLink } from "@/components/app-link"
 
 import type { Template } from "../data/templates"
 import { useCart } from "../hooks/use-cart"
+import { getTemplateFileName } from "../lib/get-template"
 import { AddToCartButton } from "./add-to-cart-button"
 
 export function TemplatePurchaseCard({ template }: { template: Template }) {
@@ -15,7 +16,7 @@ export function TemplatePurchaseCard({ template }: { template: Template }) {
   const isFree = template.pricing === "free"
 
   const includes = [
-    `ملف ${template.format} جاهز للنسخ والتعديل`,
+    `ملف ${template.format} جاهز للنسخ والتعديل: ${getTemplateFileName(template)}`,
     `${template.contents.length} أقسام مرتبة وجاهزة للاستخدام`,
     "استخدام غير محدود في مشروعاتك وفريقك",
   ]

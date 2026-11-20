@@ -1,6 +1,6 @@
 "use client"
 
-import { useAtom } from "jotai"
+import { atom, useAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 
 import { useIsClient } from "@/hooks/use-is-client"
@@ -40,4 +40,17 @@ export function useCart() {
 
 function getIds(value: unknown) {
   return getCartTemplates(value).map(({ id }) => id)
+}
+
+const cartSheetOpenAtom = atom(false)
+
+export function useCartSheet() {
+  const [isOpen, setIsOpen] = useAtom(cartSheetOpenAtom)
+
+  return {
+    isOpen,
+    setIsOpen,
+    open: () => setIsOpen(true),
+    close: () => setIsOpen(false),
+  }
 }

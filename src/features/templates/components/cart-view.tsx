@@ -1,8 +1,7 @@
 "use client"
 
-import { ArrowLeftIcon, ShoppingCartIcon, Trash2Icon } from "lucide-react"
+import { ArrowLeftIcon, ShoppingCartIcon } from "lucide-react"
 
-import { trackEvent } from "@/lib/events"
 import { Button } from "@/components/ui/button"
 import {
   Empty,
@@ -14,16 +13,10 @@ import {
 } from "@/components/ui/empty"
 import { AppLink } from "@/components/app-link"
 
-import { TEMPLATE_CATEGORIES } from "../data/templates"
 import { useCart } from "../hooks/use-cart"
-import { cartNeedsPayment, formatPrice, getTemplatePrice } from "../lib/cart"
-import { getTemplatePath } from "../lib/get-template"
+import { cartNeedsPayment, formatPrice } from "../lib/cart"
+import { CartItemList } from "./cart-items"
 import { CheckoutSteps } from "./checkout-steps"
-import { TemplateThumbnail } from "./template-thumbnail"
-
-const CATEGORY_LABELS = Object.fromEntries(
-  TEMPLATE_CATEGORIES.map(({ value, label }) => [value, label])
-)
 
 export function EmptyCart() {
   return (
@@ -62,47 +55,7 @@ export function CartView() {
         <EmptyCart />
       ) : (
         <div className="flex flex-col gap-4 p-4">
-          <ul className="flex flex-col divide-y divide-line rounded-xl border border-line">
-            {cart.items.map((template) => (
-              <li key={template.id} className="flex items-center gap-3 p-3">
-                <TemplateThumbnail template={template} />
-                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                  <AppLink
-                    href={getTemplatePath(template)}
-                    className="truncate text-sm font-medium underline-offset-4 hover:underline"
-                  >
-                    {template.title}
-                  </AppLink>
-                  <span className="text-xs text-muted-foreground">
-                    {CATEGORY_LABELS[template.category]}
-                    <span className="mx-1.5 opacity-40" aria-hidden>
-                      •
-                    </span>
-                    <span dir="ltr">{template.format}</span>
-                  </span>
-                </div>
-                <span className="text-sm font-medium" dir="ltr">
-                  {formatPrice(getTemplatePrice(template))}
-                </span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={`احذف ${template.title} من السلة`}
-                  title="احذف من السلة"
-                  onClick={() => {
-                    cart.remove(template.id)
-                    trackEvent({
-                      name: "template_remove_from_cart",
-                      properties: { template_id: template.id },
-                    })
-                  }}
-                >
-                  <Trash2Icon className="size-4" aria-hidden />
-                </Button>
-              </li>
-            ))}
-          </ul>
+          <CartItemList items={cart.items} onRemove={cart.remove} />
 
           <div className="flex flex-col gap-3 rounded-xl border border-line p-4">
             <div className="flex items-center justify-between text-sm text-muted-foreground">

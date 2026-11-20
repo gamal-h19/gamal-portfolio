@@ -22,7 +22,7 @@ import {
 } from "@/features/consultation/lib/payment"
 
 import type { Template } from "../data/templates"
-import { useCart } from "../hooks/use-cart"
+import { useCart, useCartSheet } from "../hooks/use-cart"
 import { cartNeedsPayment, getCartTotal } from "../lib/cart"
 import {
   isValidEmail,
@@ -215,6 +215,13 @@ function PaymentStep({
           الطريقتين، ثم أكمل الطلب. تصلك روابط القوالب المدفوعة على بريدك بعد
           تأكيد التحويل.
         </p>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 rounded-lg bg-primary/5 px-4 py-3">
+        <span className="text-sm text-muted-foreground">المبلغ المطلوب</span>
+        <span className="text-2xl font-medium" dir="ltr">
+          {total}$
+        </span>
       </div>
 
       <fieldset className="grid gap-3 sm:grid-cols-2">
@@ -463,6 +470,7 @@ function Confirmation({
 
 export function CheckoutView() {
   const cart = useCart()
+  const sheet = useCartSheet()
   const [step, setStep] = useState<"details" | "payment" | "confirmation">(
     "details"
   )
@@ -569,7 +577,18 @@ export function CheckoutView() {
 
   return (
     <>
-      <CheckoutSteps current={step} needsPayment={needsPayment} />
+      <CheckoutSteps
+        current={step}
+        needsPayment={needsPayment}
+        onStepClick={(target) => {
+          setError("")
+          if (target === "cart") {
+            sheet.open()
+          } else if (target === "details") {
+            setStep("details")
+          }
+        }}
+      />
       <div className="grid gap-4 p-4 sm:grid-cols-[1fr_16rem]">
         {step === "payment" && needsPayment ? (
           <PaymentStep
@@ -599,7 +618,11 @@ export function CheckoutView() {
             onSubmit={submitDetails}
           />
         )}
-        <OrderSummary items={cart.items} className="self-start" />
+        <OrderSummary
+          items={cart.items}
+          onEdit={sheet.open}
+          className="max-sm:order-first sm:sticky sm:top-[calc(var(--header-height)+1rem)] sm:self-start"
+        />
       </div>
     </>
   )

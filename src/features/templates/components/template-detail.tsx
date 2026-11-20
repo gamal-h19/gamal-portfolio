@@ -24,6 +24,7 @@ import { getRelatedTemplates, getTemplatePath } from "../lib/get-template"
 import { TemplateCard, TemplatePricingBadge } from "./template-card"
 import { TemplatePreview } from "./template-preview"
 import { TemplatePurchaseCard } from "./template-purchase-card"
+import { TemplateTags } from "./template-tags"
 
 const CATEGORY_LABELS = Object.fromEntries(
   TEMPLATE_CATEGORIES.map(({ value, label }) => [value, label])
@@ -123,13 +124,7 @@ export function TemplateDetail({ template }: { template: Template }) {
             {template.overview}
           </p>
 
-          <ul className="flex flex-wrap gap-1.5" aria-label="الوسوم">
-            {template.tags.map((tag) => (
-              <li key={tag}>
-                <Tag className="font-sans text-xs">{tag}</Tag>
-              </li>
-            ))}
-          </ul>
+          <TemplateTags tags={template.tags} className="font-sans" />
 
           <dl className="grid grid-cols-2 gap-3 border-t border-dashed border-line pt-4 sm:grid-cols-4">
             {stats.map((stat) => (

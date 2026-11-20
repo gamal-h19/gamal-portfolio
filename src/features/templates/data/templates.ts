@@ -30,6 +30,8 @@ export type Template = {
   /** Required when pricing is "paid". */
   priceUsd?: number
   format: TemplateFormat
+  /** A screenshot of the template, under public/images/templates/; without one a drawn cover stands in. */
+  image?: string
   tags: string[]
   /** The sections inside the template, in their order; the preview draws them too. */
   contents: TemplateSection[]

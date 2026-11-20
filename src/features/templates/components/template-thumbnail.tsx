@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { cn } from "@/lib/utils"
 
 import type { Template } from "../data/templates"
@@ -8,7 +10,7 @@ const CATEGORY_TONES: Record<Template["category"], string> = {
     "bg-amber-100 text-amber-950 dark:bg-amber-300/15 dark:text-amber-100",
 }
 
-/** A small drawing of the template's sections, standing in for a cover image. */
+/** The template's screenshot, small; without one, a drawing of its sections. */
 export function TemplateThumbnail({
   template,
   className,
@@ -16,6 +18,25 @@ export function TemplateThumbnail({
   template: Template
   className?: string
 }) {
+  if (template.image) {
+    return (
+      <div
+        className={cn(
+          "relative size-16 shrink-0 overflow-hidden rounded-lg border border-line",
+          className
+        )}
+      >
+        <Image
+          src={template.image}
+          alt=""
+          fill
+          sizes="64px"
+          className="object-cover object-top"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       aria-hidden

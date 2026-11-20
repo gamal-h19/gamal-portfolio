@@ -4,10 +4,9 @@ import { CheckIcon, ShoppingCartIcon } from "lucide-react"
 
 import { trackEvent } from "@/lib/events"
 import { Button } from "@/components/ui/button"
-import { AppLink } from "@/components/app-link"
 
 import type { Template } from "../data/templates"
-import { useCart } from "../hooks/use-cart"
+import { useCart, useCartSheet } from "../hooks/use-cart"
 
 export function AddToCartButton({
   template,
@@ -19,6 +18,7 @@ export function AddToCartButton({
   className?: string
 }) {
   const cart = useCart()
+  const sheet = useCartSheet()
 
   if (cart.has(template.id)) {
     return (
@@ -26,8 +26,9 @@ export function AddToCartButton({
         size={size}
         variant="secondary"
         className={className}
-        nativeButton={false}
-        render={<AppLink href="/cart" />}
+        type="button"
+        aria-haspopup="dialog"
+        onClick={sheet.open}
       >
         <CheckIcon aria-hidden />
         في السلة
@@ -44,6 +45,7 @@ export function AddToCartButton({
       className={className}
       onClick={() => {
         cart.add(template.id)
+        sheet.open()
         trackEvent({
           name: "template_add_to_cart",
           properties: {
