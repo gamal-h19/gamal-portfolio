@@ -35,11 +35,11 @@ export type Template = {
   contents: TemplateSection[]
   benefits: string[]
   audience: string[]
-  /** Download or checkout link; templates without one are requested through the contact page. */
+  /** The template's file, delivered after checkout. */
   href?: string
+  /** Google Sheets copy link, delivered after checkout in place of href. */
+  sheetUrl?: string
 }
-
-export const TEMPLATE_REQUEST_HREF = "/contact"
 
 export const TEMPLATES: Template[] = [
   {
