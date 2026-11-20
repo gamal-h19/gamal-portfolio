@@ -21,6 +21,7 @@ const NAV_KEY_MAP: Record<string, string> = {
   "/about": "nav.about",
   "/case-studies": "nav.caseStudies",
   "/blog": "nav.blog",
+  "/templates": "nav.templates",
   "/newsletter": "nav.newsletter",
   "/consultation": "nav.consultation",
   "/contact": "nav.contact",

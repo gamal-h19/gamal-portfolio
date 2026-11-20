@@ -5,6 +5,7 @@ export const TRANSLATIONS: { ar: Record<string, string> } = {
     "nav.about": "عنّي",
     "nav.caseStudies": "أعمال",
     "nav.blog": "مقالات",
+    "nav.templates": "قوالب",
     "nav.newsletter": "النشرة",
     "nav.consultation": "استشارة",
     "nav.contact": "تواصل",
