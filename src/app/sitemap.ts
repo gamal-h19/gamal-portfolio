@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next"
 import { SITE_INFO } from "@/config/site"
 import { getBlogPosts } from "@/features/doc/data/documents"
 import { CASE_STUDIES } from "@/features/portfolio/data/case-studies"
+import { TEMPLATES } from "@/features/templates/data/templates"
+import { getTemplatePath } from "@/features/templates/lib/get-template"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -23,6 +25,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString(),
   }))
 
+  const templates = TEMPLATES.map((template) => ({
+    url: toUrl(getTemplatePath(template)),
+    lastModified: new Date().toISOString(),
+  }))
+
   const paths = [
     "",
     "/about",
@@ -38,5 +45,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString(),
   }))
 
-  return [...routes, ...caseStudies, ...posts]
+  return [...routes, ...caseStudies, ...templates, ...posts]
 }
